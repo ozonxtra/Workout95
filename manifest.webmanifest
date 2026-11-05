@@ -1,0 +1,21 @@
+{
+  "name": "Spesialisasi 95 · Habit Tracker Latihan",
+  "short_name": "Spesialisasi 95",
+  "description": "Program spesialisasi 95 hari untuk triceps, biceps, bahu, lats & perut—dengan habit tracker frekuensi per otot.",
+  "lang": "id",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1013",
+  "theme_color": "#0d1013",
+  "categories": ["health", "fitness", "lifestyle"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

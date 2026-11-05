@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spesialisasi 95 · Habit Tracker Latihan</title>
+<meta name="description" content="Program spesialisasi 95 hari berbasis riset untuk triceps, biceps, bahu, lats & perut—dengan habit tracker frekuensi per otot.">
+<meta name="theme-color" content="#0d1013">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Spesialisasi 95">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="Spesialisasi 95">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,600..900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tema ---------- */
+:root{
+  --bg:#0d1013;--card:#161b20;--card2:#1c2228;--ink:#eef2f4;--mut:#8f9ca6;--line:#262e35;
+  --acc:#d4ff3a;--acc-ink:#0d1013;--acc-tx:#d4ff3a;--acc-soft:#d4ff3a24;
+  --warn:#ffb347;--bad:#ff6b5e;--ok:#d4ff3a;
+  --f1:#5ec8ff;--f2:#d4ff3a;--f3:#ff7a45;--dl:#b8a6ff;
+  --heat0:#1f262c;--heat1:#4d5c1c;--heat2:#93b42b;--heat3:#d4ff3a;
+  --r:16px;color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#f3f2ec;--card:#ffffff;--card2:#f7f6f1;--ink:#14171a;--mut:#5f6a72;--line:#e0ded5;
+  --acc:#c8f03a;--acc-ink:#14171a;--acc-tx:#3f6300;--acc-soft:#c8f03a40;
+  --warn:#b26a00;--bad:#c63b2f;--ok:#3f6300;
+  --f1:#0a77b5;--f2:#4e7a00;--f3:#c4461a;--dl:#6a52c9;
+  --heat0:#e7e5dc;--heat1:#dceeaa;--heat2:#a9cf3a;--heat3:#5f8f00;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme]){
+  --bg:#f3f2ec;--card:#ffffff;--card2:#f7f6f1;--ink:#14171a;--mut:#5f6a72;--line:#e0ded5;
+  --acc:#c8f03a;--acc-ink:#14171a;--acc-tx:#3f6300;--acc-soft:#c8f03a40;
+  --warn:#b26a00;--bad:#c63b2f;--ok:#3f6300;
+  --f1:#0a77b5;--f2:#4e7a00;--f3:#c4461a;--dl:#6a52c9;
+  --heat0:#e7e5dc;--heat1:#dceeaa;--heat2:#a9cf3a;--heat3:#5f8f00;
+  color-scheme:light}}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-top:env(safe-area-inset-top,0px)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:3px solid var(--acc-tx);outline-offset:2px;border-radius:6px}
+.disp{font-family:"Archivo","Figtree",sans-serif;font-stretch:80%;letter-spacing:-.01em}
+h2,h3,.big,.brand,.tile b,.sec{font-family:"Archivo","Figtree",sans-serif;font-stretch:82%}
+h2{font-size:24px;line-height:1.1;margin:0 0 4px;font-weight:800}
+h3{font-size:18px;line-height:1.2;margin:0;font-weight:800}
+.sec{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:26px 2px 10px;display:flex;justify-content:space-between;align-items:center}
+.sec small{letter-spacing:0;text-transform:none;font-family:"Figtree";font-weight:600}
+.hint{color:var(--mut);font-size:14px;margin:4px 0 0}
+.wrap{max-width:600px;margin:0 auto;padding:4px 14px 180px}
+
+/* ---------- Header ---------- */
+.top{position:sticky;top:0;z-index:7;display:flex;align-items:center;justify-content:space-between;max-width:600px;margin:0 auto;padding:10px 14px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:900;font-size:17px;letter-spacing:.06em}
+.brand b{color:var(--acc-tx);margin-left:2px}
+.logo{width:26px;height:26px;border-radius:8px;background:var(--acc);position:relative}
+.logo::after{content:"";position:absolute;inset:11px 5px;background:var(--acc-ink);border-radius:2px}
+.syncdot{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--mut);padding:6px 10px;border:1px solid var(--line);border-radius:99px}
+.syncdot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--mut)}
+.syncdot[data-st="ok"]::before{background:var(--ok)}
+.syncdot[data-st="saving"]::before{background:var(--warn)}
+.syncdot[data-st="error"]::before,.syncdot[data-st="offline"]::before{background:var(--bad)}
+
+/* ---------- Kartu & umum ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:10px 0}
+.banner{background:var(--acc-soft);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:14px}
+.banner button{color:var(--acc-tx);font-weight:700;text-decoration:underline}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:10px 16px;border-radius:12px;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:15px;text-decoration:none}
+.btn.alt{background:var(--card2);color:var(--ink);border:1px solid var(--line);font-weight:600}
+.btn.full{width:100%}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:13px;font-weight:600;background:var(--card2);border:1px solid var(--line)}
+.chip.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.chip i{font-style:normal;color:var(--mut);font-weight:500}
+.chip.on i{color:inherit;opacity:.7}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.ph{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--bg);background:var(--fc)}
+.ph-f1{--fc:var(--f1)}.ph-f2{--fc:var(--f2)}.ph-f3{--fc:var(--f3)}.ph-dl{--fc:var(--dl)}
+label.l{display:block;font-size:13px;color:var(--mut);margin-top:12px;font-weight:600}
+input[type=text],input[type=number],input[type=url],textarea,select{width:100%;padding:11px 12px;border-radius:11px;border:1px solid var(--line);background:var(--bg);margin-top:5px;font-size:16px}
+textarea{min-height:70px;resize:vertical}
+.ib{width:44px;height:44px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:22px;flex:none}
+
+/* ---------- Hero hari ini ---------- */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;margin-top:6px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(var(--acc-soft),transparent 70%)}
+.hero-top{display:flex;align-items:center;gap:8px;position:relative}
+.hero-d{flex:1;text-align:center}
+.kick{font-size:13px;color:var(--mut);font-weight:600}
+.big{font-size:44px;font-weight:900;line-height:1;margin:4px 0}
+.big b{color:var(--acc-tx)}
+.big span{font-size:20px;color:var(--mut);font-weight:700}
+.prog{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin:12px 0 10px}
+.prog i{display:block;height:100%;background:var(--acc);border-radius:9px}
+.hero-meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut);font-weight:600}
+
+.sess h2{margin-top:6px}
+.sess .lbl{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--acc-tx)}
+.bar{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin:8px 0 2px}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:9px;transition:width .25s}
+
+/* ---------- Kartu gerakan ---------- */
+.ex{border-left:4px solid var(--line)}
+.ex.ok{border-left-color:var(--acc)}
+.ex header{display:flex;gap:12px;align-items:flex-start}
+.ex .n{flex:none;width:30px;height:30px;border-radius:9px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:14px}
+.ex.ok .n{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.ex header small{display:block;color:var(--mut);font-size:13px;font-weight:500;margin-top:2px}
+.mtags{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 0}
+.mtags span{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--acc-soft);color:var(--acc-tx)}
+.mtags span.ind{background:var(--card2);color:var(--mut);font-weight:600}
+.rx{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0 4px}
+.rx div{background:var(--card2);border-radius:10px;padding:7px 4px;text-align:center}
+.rx b{display:block;font-size:15px;line-height:1.15;font-family:"Archivo",sans-serif;font-stretch:85%}
+.rx span{font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.ssx,.intx{font-size:13px;margin:8px 0 0;padding:7px 10px;border-radius:9px;background:var(--card2)}
+.intx{background:color-mix(in srgb,var(--f3) 16%,transparent)}
+.sets{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 4px}
+.set{display:flex;flex-direction:column;gap:5px}
+.set button{height:48px;border-radius:12px;border:2px solid var(--line);font-weight:800;font-size:16px;background:var(--card)}
+.set button.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.set input{margin:0;padding:7px 4px;text-align:center;font-size:15px;border-radius:9px}
+.prev{font-size:13px;color:var(--mut);margin:8px 0 0}
+.prev b{color:var(--ink)}
+.up{color:var(--acc-tx);font-weight:700}
+.more{margin-top:12px;font-size:14px;color:var(--acc-tx);font-weight:700}
+.det{font-size:14px;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.det p{margin:6px 0}
+.det .why{background:var(--card2);border-radius:10px;padding:9px 11px;border-left:3px solid var(--acc)}
+.fin{width:100%;padding:16px;border-radius:14px;background:var(--acc);color:var(--acc-ink);font-weight:800;font-size:17px;margin-top:10px}
+.fin.done{background:transparent;color:var(--acc-tx);border:2px solid var(--acc)}
+
+/* ---------- Habit tracker ---------- */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 14px}
+.tile b{display:block;font-size:34px;font-weight:900;line-height:1}
+.tile b small{font-size:16px;color:var(--mut)}
+.tile span{font-size:13px;color:var(--mut);font-weight:600}
+.tile.hi{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.tile.hi span,.tile.hi b small{color:var(--acc-ink);opacity:.75}
+.mrow{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 0;border-top:1px solid var(--line)}
+.mrow:first-of-type{border-top:0}
+.mrow .nm{font-weight:700}
+.mrow .nm small{color:var(--mut);font-weight:500;margin-left:6px;font-size:12px}
+.dots{display:flex;gap:4px;align-items:center;font-size:13px;font-weight:700}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--acc-tx)}
+.dots i.on{background:var(--acc-tx)}
+.mrow .bar{grid-column:1/-1;height:8px;margin:4px 0 0;position:relative;overflow:visible}
+.mrow .bar i{border-radius:9px}
+.mrow .bar em{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--mut);border-radius:2px}
+.mrow .meta{grid-column:1/-1;display:flex;justify-content:space-between;font-size:12px;color:var(--mut);font-weight:600}
+.weeknav{display:flex;align-items:center;gap:8px}
+.weeknav button{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:var(--card);font-size:16px}
+
+.heat{display:grid;grid-template-columns:44px repeat(7,1fr);gap:5px;align-items:center}
+.heat .hd{font-size:11px;color:var(--mut);font-weight:700;text-align:center;text-transform:uppercase}
+.heat .wl{font-size:11px;color:var(--mut);font-weight:700}
+.hc{aspect-ratio:1;border-radius:8px;background:var(--heat0);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--mut);position:relative}
+.hc.rest{background:transparent;border:1px dashed var(--line)}
+.hc.p1{background:var(--heat1);color:var(--ink)}
+.hc.p2{background:var(--heat2);color:#14171a}
+.hc.p3{background:var(--heat3);color:var(--acc-ink)}
+:root[data-theme="light"] .hc.p3{color:#fff}
+.hc.miss{background:transparent;border:2px solid var(--bad);color:var(--bad)}
+.hc.fut{opacity:.55}
+.hc.today{outline:2px solid var(--ink);outline-offset:2px}
+.hc.blank{visibility:hidden}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:12px;color:var(--mut);font-weight:600}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{width:13px;height:13px;border-radius:4px;display:inline-block}
+
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{fill:var(--mut);font-size:10px;font-family:"Figtree",sans-serif}
+.chart .gl{stroke:var(--line);stroke-width:1}
+.chart .pl{fill:none;stroke:var(--mut);stroke-width:1.5;stroke-dasharray:3 2}
+.chart .dn{fill:var(--acc-tx)}
+.chart .hit{fill:transparent}
+.chart .hit:hover+.dn,.chart g:hover .dn{opacity:.8}
+.chart .ln{fill:none;stroke:var(--acc-tx);stroke-width:2}
+.chart .pt{fill:var(--acc-tx);stroke:var(--card);stroke-width:2}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;font-weight:600;padding:6px 9px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-110%);display:none}
+
+/* ---------- Jadwal ---------- */
+.wk{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 6px;font-weight:800}
+.row{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:10px 12px;margin:5px 0;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.row.today{border:2px solid var(--acc-tx)}
+.row .dt{flex:none;width:52px;font-size:12px;color:var(--mut);line-height:1.25}
+.row .dt b{display:block;color:var(--ink);font-size:14px}
+.row .ss{flex:1;font-weight:700;line-height:1.3;font-size:15px}
+.row .ss small{display:block;font-weight:500;color:var(--mut);font-size:13px}
+.row .st{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800}
+.row.fin1 .st{background:var(--acc);color:var(--acc-ink)}
+.row.part .st{border:2px solid var(--acc-tx);color:var(--acc-tx)}
+.row.miss .st{border:2px dashed var(--bad);color:var(--bad)}
+.row.rest .ss{color:var(--mut);font-weight:600}
+
+/* ---------- Progres ---------- */
+.mt{width:100%;border-collapse:collapse;font-size:14px}
+.mt th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);text-align:left;padding:4px}
+.mt td{padding:3px 4px}
+.mt td:first-child{font-weight:700;white-space:nowrap;font-size:13px}
+.mt input{margin:0;padding:8px;font-size:15px}
+.seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;padding:8px 6px;border-radius:9px;font-weight:700;font-size:14px;color:var(--mut);line-height:1.2}
+.seg button small{display:block;font-weight:500;font-size:11px}
+.seg button.on{background:var(--acc);color:var(--acc-ink)}
+.pr{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.pr:first-child{border-top:0}
+.pr b{font-family:"Archivo",sans-serif;font-size:18px}
+
+/* ---------- Panduan ---------- */
+details.al{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:8px 0;padding:12px 14px}
+details.al summary{font-weight:800;cursor:pointer;font-family:"Archivo",sans-serif;font-stretch:85%;font-size:16px}
+details.al[open] summary{margin-bottom:6px}
+details.al p,details.al li{font-size:15px;color:var(--ink)}
+details.al li{margin:4px 0}
+.ref{font-size:13px;color:var(--mut)}
+.ref li{margin:5px 0}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;background:var(--bg);border:1px solid var(--line);padding:9px 11px;border-radius:10px;margin-top:6px}
+
+/* ---------- Navigasi & timer ---------- */
+nav{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);z-index:8}
+nav div{display:flex;width:100%;max-width:600px}
+nav button{flex:1;padding:8px 2px 9px;font-size:11.5px;font-weight:700;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:3px}
+nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--acc-tx)}
+#timer{position:fixed;left:12px;right:12px;bottom:calc(70px + env(safe-area-inset-bottom,0px));max-width:576px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:16px;padding:10px 14px;display:none;align-items:center;gap:10px;z-index:9;box-shadow:0 10px 30px #0006}
+#timer.show{display:flex}
+#timer b{font-size:28px;font-variant-numeric:tabular-nums;font-family:"Archivo",sans-serif}
+#timer span{flex:1;font-size:14px;font-weight:600}
+#timer button{background:color-mix(in srgb,var(--bg) 18%,transparent);color:inherit;border-radius:9px;padding:8px 11px;font-weight:700;font-size:14px}
+#timer.end{background:var(--acc);color:var(--acc-ink)}
+
+.player{width:100%;max-height:70vh;border-radius:12px;background:#000;margin:6px 0}
+.vid{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.vid a,.vid button,.vid label{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:7px 12px;border-radius:10px;background:var(--card2);border:1px solid var(--line);font-weight:600;font-size:13px;text-decoration:none;cursor:pointer}
+@media (max-width:380px){.rx{grid-template-columns:repeat(3,1fr)}.big{font-size:38px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Foto & video progres */
+.mseg{margin:4px 0 10px}
+.mcmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.mcmp figure{margin:0}
+.mcmp figcaption{font-size:12px;font-weight:700;color:var(--mut);text-align:center;margin-top:4px}
+.mimg,.mth,.mfull{display:block;width:100%;border-radius:10px;background:var(--card2);object-fit:cover}
+.mimg{aspect-ratio:3/4}
+.mfull{max-height:70vh;object-fit:contain;background:#000}
+.mnone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:26px;aspect-ratio:3/4;color:var(--mut);text-align:center;padding:8px}
+.mfull.mnone{aspect-ratio:auto;min-height:160px;background:var(--card2)}
+.mnone small{font-size:11px;font-weight:600}
+.mview .mnote{width:100%;margin-top:8px}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 0}
+.mgrid button{display:block;padding:0;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer}
+.mgrid button.on{outline:2px solid var(--acc)}
+.mgrid .mth{aspect-ratio:3/4;border-radius:0}
+.mgrid span{display:block;padding:5px 7px;font-size:12px;font-weight:700}
+.mgrid span small{display:block;font-weight:500;color:var(--mut)}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true"></span><span>SPESIALISASI<b>95</b></span></div>
+  <button class="syncdot" data-a="tab" data-v="guide" data-sync aria-label="Status sinkron"></button>
+</header>
+<main class="wrap" id="app"></main>
+<div id="timer" role="status"><b id="tt">00:00</b><span id="tl">Istirahat</span><button data-a="t+">+15 dtk</button><button data-a="tx">Tutup</button></div>
+<nav><div id="nav"></div></nav>
+<script type="module">
+// =====================================================================
+// SPESIALISASI 95 HARI — data program (sumber kebenaran tunggal)
+// Hari 1 = Kamis, 5 November 2026. Hari 95 = Minggu, 7 Februari 2027.
+// Semua angka set/minggu dihitung otomatis dari data ini (lihat app.js).
+// =====================================================================
+
+const START = '2026-11-05';
+const DAYS = 95;
+
+// Otot target. `t` = rentang set efektif per minggu yang dituju (lihat PANDUAN).
+const MUSCLES = {
+  tri: { n: 'Triceps', s: 'Prioritas utama', t: [14, 20] },
+  bi:  { n: 'Biceps', s: 'Lengan depan', t: [12, 18] },
+  sd:  { n: 'Side delt', s: 'Bahu samping', t: [9, 16] },
+  rd:  { n: 'Rear delt', s: 'Bahu belakang', t: [8, 14] },
+  lat: { n: 'Lats', s: 'Punggung lebar', t: [12, 18] },
+  ua:  { n: 'Abs atas', s: 'Upper abs', t: [5, 8] },
+  la:  { n: 'Abs bawah', s: 'Lower abs', t: [5, 8] },
+};
+
+// Fase. Minggu program = blok 7 hari mulai Hari 1 (Kamis–Rabu).
+const PHASES = {
+  F1: { n: 'Fase 1 · Dasar', short: 'Fase 1', c: 'f1', weeks: [1, 2, 3, 4],
+    h: 'Kuasai teknik & tempo. Minggu 1–2 sisakan ±3 repetisi (RIR 3), minggu 3–4 RIR 2. Catat repetisi tiap set—itu patokan progres berikutnya.' },
+  F2: { n: 'Fase 2 · Volume', short: 'Fase 2', c: 'f2', weeks: [5, 6, 7, 8],
+    h: 'Set bertambah, RIR 1–2. Tambah repetisi atau beban tiap minggu (double progression). Tekankan bagian teregang di setiap repetisi.' },
+  DL: { n: 'Deload · Pemulihan', short: 'Deload', c: 'dl', weeks: [9],
+    h: 'Set dipotong ±50%, RIR 4, tanpa teknik intensitas. Sendi siku & bahu pulih, rasa “capek menumpuk” hilang sebelum fase terberat.' },
+  F3: { n: 'Fase 3 · Intensifikasi', short: 'Fase 3', c: 'f3', weeks: [10, 11, 12, 13, 14],
+    h: 'Volume tertinggi. Isolasi set terakhir sampai gagal + lengthened partial / myo-reps. Compound (pull-up, chin-up, push-up) tetap RIR 1.' },
+};
+const phaseOfWeek = w => Object.keys(PHASES).find(k => PHASES[k].weeks.includes(w)) || 'F3';
+const PI = { F1: 0, F2: 1, F3: 2 }; // indeks kolom set
+
+// RIR berdasarkan jenis gerakan, fase, minggu.
+function rirFor(ex, ph, week) {
+  if (ph === 'DL') return '4';
+  if (ex.k === 'iso') return ph === 'F1' ? (week <= 2 ? '3' : '2') : ph === 'F2' ? '1–2' : '0–1';
+  return ph === 'F1' ? (week <= 2 ? '3' : '2') : ph === 'F2' ? '2' : '1';
+}
+
+// --------------------------------------------------------------------
+// Gerakan. m = kontribusi otot (1 = set langsung, 0.5 = set tidak langsung,
+// metode “fractional set counting” Pelland dkk. 2024).
+// s = [set Fase1, Fase2, Fase3]. ist = istirahat (detik). k = 'cmp' | 'iso'.
+// --------------------------------------------------------------------
+const SESSIONS = {
+  A: {
+    n: 'Sesi A', t: 'Triceps, Lengan & Bahu', mins: '50–60',
+    ex: [
+      { id: 'oh-ext', g: 'Overhead Triceps Extension', h: 'dua tangan, duduk', m: { tri: 1 }, k: 'iso', s: [3, 4, 4], reps: '10–15', tempo: '3-1-1', ist: 90, ss: 'Superset 1 dengan Incline Curl',
+        alat: '1 dumbbell 10 kg, kursi bersandaran',
+        tek: 'Pegang satu dumbbell dengan dua tangan di atas kepala, siku menunjuk ke atas dan rapat. Turunkan ke belakang kepala sampai triceps benar-benar teregang, tahan 1 detik, dorong sampai lurus.',
+        int: 'Set terakhir: sesudah gagal, lanjut 5–8 lengthened partial (setengah bawah gerakan).',
+        why: 'Maeo dkk. (2023): extension posisi overhead menghasilkan pertumbuhan triceps ±40% lebih besar dibanding posisi lengan netral, karena long head dilatih dalam keadaan teregang.' },
+      { id: 'inc-curl', g: 'Incline Dumbbell Curl', h: 'bersandar miring, lengan di belakang badan', m: { bi: 1 }, k: 'iso', s: [3, 3, 4], reps: '8–15', tempo: '3-0-1', ist: 90, ss: 'Superset 1 dengan Overhead Extension',
+        alat: '2 dumbbell 10 kg (bergantian), sofa + bantal ditumpuk sebagai sandaran miring',
+        tek: 'Bahu menempel sandaran, lengan menggantung lurus di belakang garis badan. Angkat tanpa memajukan siku, turunkan 3 detik sampai lengan lurus penuh. Belum kuat 8 reps dengan 10 kg: kerjakan bergantian dan pakai tempo 2-0-1.',
+        int: 'Set terakhir: lengthened partial di setengah bawah sampai tidak sanggup.',
+        why: 'Bahu dalam posisi ekstensi meregangkan long head biceps. Latihan di panjang otot yang lebih besar memberi hipertrofi sama atau lebih baik (Pedrosa dkk. 2023; meta-analisis Wolf dkk. 2023).' },
+      { id: 'lat-raise', g: 'Lateral Raise', h: 'berdiri, dua lengan', m: { sd: 1 }, k: 'iso', s: [3, 4, 5], reps: '12–25', tempo: '2-0-2', ist: 60,
+        alat: 'Botol air 1,5–2 L, atau tas kecil berisi buku. Dumbbell 10 kg biasanya terlalu berat untuk teknik yang benar.',
+        tek: 'Badan sedikit condong ke depan, siku sedikit menekuk. Angkat ke samping sampai siku setinggi bahu—pimpin dengan siku, bukan tangan. Tanpa ayunan pinggul.',
+        int: 'Set terakhir: myo-reps — setelah gagal, tarik 5 napas, lakukan 3–5 reps lagi; ulangi 3 kali.',
+        why: 'Beban ringan (≥30% 1RM) membangun otot setara beban berat asalkan set dibawa dekat gagal (Schoenfeld dkk. 2017; Lasevicius dkk. 2018). Side delt adalah otot kunci untuk kesan bahu lebar.' },
+      { id: 'cg-pushup', g: 'Close-grip Push-up', h: 'tangan selebar bahu', m: { tri: 1 }, k: 'cmp', s: [3, 3, 3], reps: '8–20', tempo: '2-1-1', ist: 90,
+        alat: 'Berat badan → kaki di kursi (Fase 2) → ransel berisi 1–2 dumbbell (Fase 3)',
+        tek: 'Tangan tepat di bawah bahu, siku rapat ke badan (±30–45°), badan lurus kepala-tumit. Dada hampir menyentuh lantai, jeda 1 detik, dorong sampai siku terkunci.',
+        int: 'Pakai ransel berisi dumbbell supaya rentang reps tetap 8–20.',
+        why: 'Compound untuk triceps yang bisa diberi beban progresif dengan alat rumah—menambah volume triceps tanpa membebani siku seperti isolasi.' },
+      { id: 'hammer', g: 'Hammer Curl', h: 'telapak berhadapan', m: { bi: 1 }, k: 'iso', s: [2, 3, 3], reps: '10–15', tempo: '2-0-2', ist: 60,
+        alat: '2 dumbbell 10 kg',
+        tek: 'Siku menempel di samping badan, telapak saling berhadapan. Naik tanpa mengayun, turun terkontrol.',
+        int: 'Set terakhir sampai gagal.',
+        why: 'Melatih brachialis & brachioradialis—menambah ketebalan lengan dari samping dan depan, melengkapi biceps.' },
+      { id: 'prone-fly', g: 'Prone Reverse Fly', h: 'tengkurap di tepi kasur/meja', m: { rd: 1 }, k: 'iso', s: [2, 3, 3], reps: '15–25', tempo: '2-1-2', ist: 60,
+        alat: 'Botol air atau dumbbell ringan, tepi kasur',
+        tek: 'Dada menempel, lengan menggantung. Siku sedikit menekuk dan dikunci, angkat lebar ke samping sampai sejajar badan. Jangan menjepit belikat keras—fokus di bahu belakang.',
+        int: 'Set terakhir: lengthened partial.',
+        why: 'Rear delt memberi “kedalaman” bahu dari samping dan belakang; dukungan dada menghilangkan ayunan sehingga bahu yang bekerja.' },
+    ],
+  },
+  B: {
+    n: 'Sesi B', t: 'Lats, Bahu Belakang & Perut', mins: '55–65',
+    ex: [
+      { id: 'pullup', g: 'Pull-up', h: 'pegangan sedikit lebih lebar dari bahu', m: { lat: 1, bi: 0.5 }, k: 'cmp', s: [3, 4, 4], reps: '5–12', tempo: '2-1-2', ist: 150,
+        alat: 'Pull-up bar; ransel berisi dumbbell bila sudah >12 reps',
+        tek: 'Mulai dari gantung penuh (lats teregang). Tarik siku ke arah saku celana, dada menuju bar. Belum mampu 5 reps: lakukan negative—lompat ke atas, turun 5 detik.',
+        int: 'Sudah ≥12 reps di semua set: tambah ransel 5–10 kg.',
+        why: 'Gerakan tarik vertikal dengan beban tubuh = beban terberat yang kamu punya untuk lats. Rentang 5–30 reps sama efektif untuk hipertrofi bila dekat gagal.' },
+      { id: 'bp-row', g: 'Single-arm Backpack Row', h: 'ransel berisi 2 dumbbell (±20 kg)', m: { lat: 1, bi: 0.5, rd: 0.5 }, k: 'cmp', s: [3, 3, 4], reps: '8–15 per sisi', tempo: '2-1-3', ist: 90,
+        alat: 'Ransel kuat + 2 dumbbell 10 kg di dalamnya; satu tangan & lutut bertumpu di kursi/sofa',
+        tek: 'Tarik siku ke arah pinggul (bukan lurus ke atas), tahan 1 detik. Turunkan 3 detik sampai bahu ikut terulur ke depan dan lats teregang.',
+        int: 'Set terakhir: setelah gagal, lanjut lengthened partial di bagian bawah.',
+        why: 'Dua dumbbell di dalam ransel menggandakan beban jadi 20 kg—cukup berat untuk row. Eksentrik lambat menambah waktu di posisi teregang.' },
+      { id: 'pullover', g: 'Dumbbell Pullover', h: 'berbaring melintang di kasur/sofa', m: { lat: 1 }, k: 'iso', s: [2, 3, 3], reps: '10–15', tempo: '3-1-1', ist: 75,
+        alat: '1 dumbbell 10 kg',
+        tek: 'Lengan hampir lurus, rusuk tetap turun. Turunkan dumbbell ke belakang kepala sampai lats teregang, tarik kembali sampai di atas dada (tidak lebih jauh).',
+        int: 'Set terakhir: lengthened partial.',
+        why: 'Satu-satunya isolasi lats tanpa kabel; tegangan terbesar justru di posisi teregang.' },
+      { id: 'rd-row', g: 'Rear-delt Row', h: 'siku melebar 90°', m: { rd: 1 }, k: 'iso', s: [3, 3, 3], reps: '12–20', tempo: '2-1-2', ist: 60,
+        alat: '2 dumbbell 10 kg; membungkuk, atau dada bertumpu di sandaran kursi',
+        tek: 'Lengan atas tegak lurus badan. Tarik dumbbell ke arah dada atas dengan siku melebar ke samping, berhenti saat siku sejajar punggung. Jeda 1 detik.',
+        int: 'Set terakhir sampai gagal.',
+        why: 'Rear delt bekerja sebagai abduktor horizontal; siku lebar memindahkan beban dari lats ke bahu belakang, sehingga dumbbell 10 kg tetap menantang.' },
+      { id: 'sa-oh-ext', g: 'Single-arm Overhead Extension', h: 'duduk, satu tangan', m: { tri: 1 }, k: 'iso', s: [3, 3, 4], reps: '10–15 per sisi', tempo: '3-1-1', ist: 60,
+        alat: '1 dumbbell 10 kg',
+        tek: 'Duduk tegak, tangan lain menopang siku. Turunkan dumbbell di belakang kepala sampai teregang penuh, dorong lurus.',
+        int: 'Set terakhir: lengthened partial.',
+        why: 'Hit ke-3 triceps minggu ini (prioritas utama). Volume tinggi lebih efektif bila dibagi ke beberapa hari daripada ditumpuk di satu sesi.' },
+      { id: 'rev-crunch', g: 'Reverse Crunch', h: 'gulung panggul', m: { la: 1 }, k: 'iso', s: [3, 3, 3], reps: '10–20', tempo: '2-1-3', ist: 60,
+        alat: 'Lantai/karpet; pegang kaki sofa di belakang kepala',
+        tek: 'Gulung panggul ke arah dada sampai bokong terangkat (posterior pelvic tilt), jeda 1 detik, turun 3 detik. Bukan sekadar mengayun kaki.',
+        int: 'Jeda 2 detik di puncak.',
+        why: 'Posterior pelvic tilt menggeser kerja ke bagian bawah rectus abdominis (Sarti dkk. 1996).' },
+      { id: 'w-crunch', g: 'Weighted Crunch', h: 'dumbbell di dada', m: { ua: 1 }, k: 'iso', s: [2, 3, 3], reps: '10–20', tempo: '2-1-2', ist: 60,
+        alat: '1 dumbbell 10 kg di dada',
+        tek: 'Gulung tulang rusuk ke arah panggul, punggung bawah tetap di lantai. Hembuskan napas habis di puncak.',
+        int: 'Set terakhir sampai gagal.',
+        why: 'Perut adalah otot—ia tumbuh dengan beban progresif seperti otot lain. Kotak six pack yang lebih tebal lebih cepat terlihat.' },
+    ],
+  },
+  C: {
+    n: 'Sesi C', t: 'Lengan & Bahu Samping', mins: '45–55',
+    ex: [
+      { id: 'lying-ext', g: 'Lying Triceps Extension', h: 'lengan condong ke belakang kepala', m: { tri: 1 }, k: 'iso', s: [3, 4, 4], reps: '10–15', tempo: '3-1-1', ist: 90, ss: 'Superset 2 dengan Preacher Curl',
+        alat: '2 dumbbell 10 kg; lantai, kasur, atau bangku',
+        tek: 'Lengan atas condong ±30° ke arah kepala (bukan tegak lurus). Turunkan dumbbell ke samping kepala sampai teregang, dorong lurus. Hentikan bila siku nyeri tajam.',
+        int: 'Set terakhir: lengthened partial.',
+        why: 'Sudut lengan ke belakang memperpanjang long head triceps—mendekati efek overhead dengan pola gerak berbeda (variasi gerakan mendukung pertumbuhan lebih merata).' },
+      { id: 'preacher', g: 'Chair Preacher Curl', h: 'lengan di sandaran kursi berbantal', m: { bi: 1 }, k: 'iso', s: [3, 3, 4], reps: '10–15 per sisi', tempo: '3-1-1', ist: 90, ss: 'Superset 2 dengan Lying Extension',
+        alat: '1 dumbbell 10 kg, sandaran kursi/sofa + bantal',
+        tek: 'Ketiak di atas sandaran, lengan atas menempel penuh. Turun 3 detik sampai hampir lurus; jangan istirahat di bawah.',
+        int: 'Set terakhir: lengthened partial (setengah bawah).',
+        why: 'Pedrosa dkk. (2023): preacher curl di rentang teregang memberi hipertrofi biceps lebih besar dibanding rentang pendek.' },
+      { id: 'leanaway', g: 'Lean-away Lateral Raise', h: 'satu lengan, pegang kusen pintu', m: { sd: 1 }, k: 'iso', s: [3, 4, 4], reps: '12–20 per sisi', tempo: '2-1-2', ist: 45,
+        alat: 'Dumbbell 10 kg bila kuat, atau botol/tas; kusen pintu',
+        tek: 'Pegang kusen, badan miring menjauh ±15–20°. Angkat sampai siku setinggi bahu. Posisi miring memberi tegangan di bagian bawah gerakan yang hilang pada raise biasa.',
+        int: 'Set terakhir: myo-reps.',
+        why: 'Memindahkan kurva tegangan ke posisi teregang side delt—pengganti cable lateral raise.' },
+      { id: 'bo-fly', g: 'Bent-over Reverse Fly', h: 'bungkuk 45–60°', m: { rd: 1 }, k: 'iso', s: [2, 3, 3], reps: '15–25', tempo: '2-1-2', ist: 60,
+        alat: 'Botol air / dumbbell ringan',
+        tek: 'Punggung netral, kepala lurus. Angkat lengan lebar ke samping tanpa mengayun badan.',
+        int: 'Set terakhir sampai gagal.',
+        why: 'Hit ke-3 rear delt. Otot kecil pulih cepat sehingga frekuensi tinggi aman.' },
+      { id: 'cg-floor', g: 'Close-grip Floor Press', h: 'dumbbell rapat, siku dekat badan', m: { tri: 1 }, k: 'cmp', s: [2, 3, 3], reps: '10–20', tempo: '3-1-1', ist: 75,
+        alat: '2 dumbbell 10 kg, lantai',
+        tek: 'Berbaring, dumbbell rapat dengan telapak berhadapan. Turunkan sampai lengan atas menyentuh lantai, jeda 1 detik, dorong sampai terkunci.',
+        int: 'Tempo turun 4 detik bila 20 reps terasa mudah.',
+        why: 'Compound triceps kedua; lantai membatasi rentang sehingga aman untuk bahu.' },
+    ],
+  },
+  D: {
+    n: 'Sesi D', t: 'Lats, Bahu Samping & Perut', mins: '45–55',
+    ex: [
+      { id: 'chinup', g: 'Chin-up', h: 'telapak menghadap wajah, selebar bahu', m: { lat: 1, bi: 0.5 }, k: 'cmp', s: [3, 4, 4], reps: '5–12', tempo: '2-1-2', ist: 150,
+        alat: 'Pull-up bar; ransel bila >12 reps',
+        tek: 'Gantung penuh, tarik sampai dagu di atas bar. Biceps ikut bekerja keras. Hentikan bila siku nyeri.',
+        int: 'Sudah ≥12 reps: tambah ransel.',
+        why: 'Melatih lats sekaligus biceps dengan beban berat—efisien untuk spesialisasi lengan + punggung.' },
+      { id: 'inv-row', g: 'Inverted Row', h: 'di bawah meja makan kokoh, pegangan lebar', m: { lat: 1, rd: 0.5, bi: 0.5 }, k: 'cmp', s: [3, 3, 3], reps: '8–15', tempo: '2-1-2', ist: 90,
+        alat: 'Meja makan kayu yang kokoh (uji dulu kekuatannya) atau sapu kuat di antara 2 kursi berat',
+        tek: 'Badan lurus, tarik dada ke tepi meja, jepit belikat, jeda 1 detik. Lebih berat: kaki diangkat ke kursi.',
+        int: 'Kaki di kursi + jeda 2 detik di atas.',
+        why: 'Tarik horizontal melengkapi tarik vertikal; dua sudut tarik melatih lats lebih menyeluruh.' },
+      { id: 'seat-raise', g: 'Seated Lateral Raise', h: 'duduk di ujung kursi', m: { sd: 1 }, k: 'iso', s: [3, 4, 5], reps: '12–25', tempo: '2-0-2', ist: 60,
+        alat: 'Botol air / tas berisi buku',
+        tek: 'Duduk menghilangkan ayunan. Angkat sampai siku setinggi bahu, turun terkontrol tanpa menyentuhkan beban ke paha.',
+        int: 'Set terakhir: myo-reps.',
+        why: 'Hit ke-3 side delt minggu ini. Otot kecil dengan kerusakan rendah—frekuensi 3×/minggu memudahkan volume tinggi.' },
+      { id: 'rollout', g: 'Towel Ab Rollout', h: 'lutut di lantai, tangan di handuk', m: { ua: 1, la: 0.5 }, k: 'iso', s: [3, 3, 3], reps: '6–12', tempo: '3-1-2', ist: 75,
+        alat: 'Handuk di lantai keramik/licin',
+        tek: 'Panggul sedikit digulung, perut kencang. Geser tangan ke depan sejauh pinggang tetap netral, tarik kembali dengan perut. Hentikan bila punggung bawah melengkung.',
+        int: 'Lebih jauh / mulai dari posisi berdiri lutut lebih ke belakang.',
+        why: 'Rollout melatih perut di posisi teregang dengan aktivasi rectus abdominis tinggi (Escamilla dkk. 2006).' },
+      { id: 'hang-raise', g: 'Hanging Knee / Leg Raise', h: 'gantung di pull-up bar', m: { la: 1 }, k: 'iso', s: [3, 3, 3], reps: '8–15', tempo: '2-1-3', ist: 75,
+        alat: 'Pull-up bar (grip lelah: ganti lying leg raise)',
+        tek: 'Gulung panggul ke atas sampai lutut mendekati dada—bukan hanya mengangkat paha. Kaki diluruskan = lebih berat. Turun 3 detik tanpa mengayun.',
+        int: 'Kaki lurus atau jeda 2 detik di puncak.',
+        why: 'Gerakan perut bawah paling berat tanpa alat; gulungan panggul memastikan perut, bukan hip flexor, yang bekerja.' },
+    ],
+  },
+  L: {
+    n: 'Opsional', t: 'Kaki (maintenance)', mins: '20', opt: true,
+    ex: [
+      { id: 'goblet', g: 'Goblet / Backpack Squat', h: 'ransel berisi 2 dumbbell', m: {}, k: 'cmp', s: [2, 2, 2], reps: '12–20', tempo: '3-1-1', ist: 90,
+        alat: 'Ransel + 2 dumbbell', tek: 'Turun dalam dengan punggung netral.', int: '', why: 'Volume ±1/3 dari biasa cukup mempertahankan massa kaki (Bickel dkk. 2011), sehingga energi pemulihan fokus ke otot target.' },
+      { id: 'bss', g: 'Bulgarian Split Squat', h: 'kaki belakang di kursi', m: {}, k: 'cmp', s: [2, 2, 2], reps: '8–15 per kaki', tempo: '2-1-1', ist: 90,
+        alat: 'Kursi, dumbbell', tek: 'Lutut depan searah jari kaki, turun sampai paha sejajar.', int: '', why: 'Unilateral = beban 10 kg terasa jauh lebih berat.' },
+      { id: 'rdl', g: 'Romanian Deadlift', h: 'dua dumbbell', m: {}, k: 'cmp', s: [2, 2, 2], reps: '12–20', tempo: '3-1-1', ist: 90,
+        alat: '2 dumbbell 10 kg', tek: 'Dorong pinggul ke belakang, punggung netral, rasakan hamstring teregang.', int: '', why: 'Menjaga hamstring & glute.' },
+    ],
+  },
+};
+
+// Pola 7 hari (Hari 1 = Kamis): Kam A · Jum B · Sab Istirahat · Min C · Sen D · Sel Kaki opsional · Rab Istirahat
+const MICRO = ['A', 'B', 'C', 'R', 'D', 'L', 'R'];
+
+const NOTES = {
+  1: 'Hari pertama! Sebelum latihan: timbang berat badan, ukur lingkar pinggang & lengan, foto depan/samping/belakang (isi di tab Progres).',
+  57: 'Deload dimulai. Set dikurangi, jangan dipaksa—ini bagian dari program.',
+  64: 'Fase 3 dimulai: teknik intensitas aktif di set terakhir gerakan isolasi.',
+  95: 'Hari evaluasi. Ukur ulang dan bandingkan dengan Hari 1.',
+};
+
+// Tes evaluasi Hari 95 (dan dianjurkan juga di Hari 1).
+const TESTS = [
+  { id: 't-pull', n: 'Pull-up maksimal (1 set, teknik penuh)', u: 'reps' },
+  { id: 't-push', n: 'Close-grip push-up maksimal', u: 'reps' },
+  { id: 't-curl', n: 'Curl 10 kg maksimal (satu lengan)', u: 'reps' },
+  { id: 't-ext', n: 'Overhead extension 10 kg maksimal', u: 'reps' },
+];
+
+
+/* =================== Utilitas tanggal =================== */
+const p2 = n => String(n).padStart(2, '0');
+const iso = d => d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate());
+const dt = t => new Date(t + 'T00:00:00');
+const addD = (t, n) => { const d = dt(t); d.setDate(d.getDate() + n); return iso(d); };
+const diff = (a, b) => Math.round((dt(a) - dt(b)) / 864e5);
+const TODAY = iso(new Date());
+const TD = diff(TODAY, START) + 1;            // hari program hari ini (bisa <1 atau >95)
+const TDc = Math.min(DAYS, Math.max(1, TD));  // dibatasi ke rentang program
+const WEEKS = Math.ceil(DAYS / 7);
+const dateOf = d => addD(START, d - 1);
+const longD = t => dt(t).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' });
+const shortD = t => dt(t).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+const wd = t => dt(t).toLocaleDateString('id-ID', { weekday: 'short' }).replace('.', '');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtRest = s => s >= 60 ? (s % 60 ? (s / 60).toFixed(1).replace('.', ',') : s / 60) + ' mnt' : s + ' dtk';
+const topRep = r => Math.max(...(String(r).match(/\d+/g) || [0]).map(Number));
+const fmtN = n => (Math.round(n * 10) / 10).toString().replace('.', ',');
+
+/* =================== Rencana =================== */
+function plan(d) {
+  const w = Math.floor((d - 1) / 7) + 1, ph = phaseOfWeek(w);
+  const ty = d === DAYS ? 'E' : MICRO[(d - 1) % 7];
+  return { d, w, ph, ty, date: dateOf(d) };
+}
+const isTrain = ty => ty === 'A' || ty === 'B' || ty === 'C' || ty === 'D';
+function exList(p) {
+  const s = SESSIONS[p.ty];
+  if (!s) return [];
+  return s.ex.map(x => ({
+    ...x,
+    sets: p.ph === 'DL' ? Math.max(1, Math.ceil(x.s[1] / 2)) : x.s[PI[p.ph]],
+    rir: rirFor(x, p.ph, p.w),
+    intx: p.ph === 'F3' ? x.int : '',
+  }));
+}
+const PLANS = Array.from({ length: DAYS }, (_, i) => plan(i + 1));
+const EX = PLANS.map(exList); // EX[d-1]
+
+/* =================== State lokal + sinkron =================== */
+const LS = 'sp95';
+const blank = () => ({ v: 1, u: 0, sets: {}, load: {}, note: {}, fin: {}, meas: {}, tests: {}, vid: {}, pm: {}, pmGone: [], goal: 'recomp' });
+function loadState() { try { const o = JSON.parse(localStorage.getItem(LS)); if (o && o.v) return Object.assign(blank(), o); } catch (e) {} return blank(); }
+let S = loadState();
+const persist = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} };
+function save() { S.u = Date.now(); persist(); schedulePush(); }
+
+const rand32 = () => [...crypto.getRandomValues(new Uint8Array(16))].map(b => b.toString(16).padStart(2, '0')).join('');
+let KEY = localStorage.getItem(LS + '-key');
+if (!/^[a-f0-9]{32}$/.test(KEY || '')) { KEY = rand32(); localStorage.setItem(LS + '-key', KEY); }
+let sync = { st: 'idle', at: 0 };
+let pushT = null, pulled = false;
+function schedulePush() { clearTimeout(pushT); pushT = setTimeout(push, 1200); }
+async function push() {
+  if (!pulled) return pull();
+  if (!navigator.onLine) { sync.st = 'offline'; return paintSync(); }
+  sync.st = 'saving'; paintSync();
+  try {
+    const r = await fetch('https://habit-tracker-workout.netlify.app/api/sync', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ key: KEY, data: S, updatedAt: S.u }) });
+    if (r.status === 409) { pulled = false; return pull(); }
+    if (!r.ok) throw new Error(String(r.status));
+    sync = { st: 'ok', at: Date.now() };
+    flushMedia();
+  } catch (e) { sync.st = navigator.onLine ? 'error' : 'offline'; }
+  paintSync();
+}
+async function pull(adoptRemote = false) {
+  try {
+    const r = await fetch('https://habit-tracker-workout.netlify.app/api/sync?key=' + KEY);
+    if (!r.ok) throw new Error(String(r.status));
+    const j = await r.json();
+    pulled = true;
+    if (j.data && (adoptRemote || j.updatedAt > S.u)) {
+      S = Object.assign(blank(), j.data); S.u = j.updatedAt; persist(); render();
+      sync = { st: 'ok', at: Date.now() };
+    } else if (S.u && (!j.data || j.updatedAt < S.u)) { return push(); }
+    else sync = { st: 'ok', at: Date.now() };
+  } catch (e) { sync.st = navigator.onLine ? 'error' : 'offline'; }
+  paintSync();
+  flushMedia();
+}
+const SYNC_TXT = { idle: 'Menyambung…', ok: 'Tersimpan', saving: 'Menyimpan…', error: 'Gagal sinkron', offline: 'Offline' };
+function paintSync() {
+  document.querySelectorAll('[data-sync]').forEach(el => { el.dataset.st = sync.st; el.textContent = SYNC_TXT[sync.st]; });
+}
+async function connect(code) {
+  code = code.trim().toLowerCase();
+  if (!/^[a-f0-9]{32}$/.test(code)) { alert('Kode harus 32 karakter (0-9, a-f).'); return; }
+  KEY = code; localStorage.setItem(LS + '-key', KEY); pulled = false;
+  await pull(true);
+  if (sync.st === 'ok') alert('Perangkat tersambung. Data dari kode ini dipakai di sini.');
+}
+addEventListener('online', () => pull());
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') pull(); });
+
+/* =================== Kalkulasi habit =================== */
+const sk = (d, id) => d + '|' + id;
+const setArr = (d, id) => S.sets[sk(d, id)] || [];
+const doneN = (d, x) => setArr(d, x.id).slice(0, x.sets).filter(s => s && s.d).length;
+
+function dayStats(d) {
+  const p = PLANS[d - 1], list = EX[d - 1];
+  const tot = list.reduce((a, x) => a + x.sets, 0), dn = list.reduce((a, x) => a + doneN(d, x), 0);
+  return { p, tot, dn, pct: tot ? dn / tot : 0, fin: !!S.fin[d] };
+}
+function dayStatus(d) {
+  const { p, pct, fin } = dayStats(d);
+  if (p.ty === 'R') return 'rest';
+  if (p.ty === 'L' && !pct && !fin) return 'rest';
+  if (fin || pct >= 0.999) return 'done';
+  if (pct > 0) return 'part';
+  if (d < TD && (isTrain(p.ty) || p.ty === 'E')) return 'miss';
+  return 'fut';
+}
+const sessDone = d => { const s = dayStats(d); return s.fin || s.pct >= 0.8; };
+
+// Volume & frekuensi otot dalam satu minggu program
+function weekMuscle(w) {
+  const out = {};
+  Object.keys(MUSCLES).forEach(k => out[k] = { plan: 0, done: 0, fPlan: 0, fDone: 0, days: [] });
+  for (let d = (w - 1) * 7 + 1; d <= Math.min(DAYS, w * 7); d++) {
+    const p = PLANS[d - 1];
+    if (!isTrain(p.ty)) continue;
+    const hitP = new Set(), hitD = new Set();
+    EX[d - 1].forEach(x => {
+      const n = doneN(d, x);
+      Object.entries(x.m).forEach(([k, f]) => {
+        out[k].plan += x.sets * f; out[k].done += n * f;
+        if (f >= 1) { hitP.add(k); if (n) hitD.add(k); }
+      });
+    });
+    hitP.forEach(k => { out[k].fPlan++; out[k].days.push({ d, done: hitD.has(k) }); });
+    hitD.forEach(k => out[k].fDone++);
+  }
+  return out;
+}
+function lastHit(k) {
+  for (let d = Math.min(TD, DAYS); d >= 1; d--) {
+    if (EX[d - 1].some(x => (x.m[k] || 0) >= 1 && doneN(d, x))) return d;
+  }
+  return 0;
+}
+function streaks() {
+  const train = PLANS.filter(p => isTrain(p.ty) && p.d <= Math.min(TD, DAYS)).map(p => p.d);
+  let best = 0, run = 0;
+  train.forEach(d => { if (sessDone(d)) { run++; best = Math.max(best, run); } else if (d < TD) run = 0; });
+  // sesi hari ini yang belum dikerjakan tidak memutus streak
+  return { cur: run, best };
+}
+function prevFor(d, id) {
+  for (let i = d - 1; i >= 1; i--) {
+    const a = setArr(i, id);
+    if (a.some(s => s && s.r)) return { d: i, reps: a.map(s => (s && s.r) || ''), load: S.load[sk(i, id)] || '' };
+  }
+  return null;
+}
+
+/* =================== Navigasi & render =================== */
+let tab = 'today', day = TDc, open = {}, hw = PLANS[TDc - 1].w, hm = 'tri', editVid = '', pmPose = 'f', pmView = '', pmBusy = '';
+const ICONS = {
+  today: '<path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/>',
+  habit: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 17.5l2 2 4-4"/>',
+  plan: '<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+  prog: '<path d="M3 20h18M5 16l4-5 4 3 6-8"/>',
+  guide: '<path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/>',
+};
+const TABS = [['today', 'Hari ini'], ['habit', 'Habit'], ['plan', 'Jadwal'], ['prog', 'Progres'], ['guide', 'Panduan']];
+
+function render() {
+  document.getElementById('nav').innerHTML = TABS.map(([k, l]) => `<button data-a="tab" data-v="${k}" class="${tab === k ? 'on' : ''}" ${tab === k ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>${l}</button>`).join('');
+  const pv = document.getElementById('vp'), ps = pv ? { t: pv.currentTime, p: pv.paused } : null;
+  document.getElementById('app').innerHTML = { today: vToday, habit: vHabit, plan: vPlan, prog: vProg, guide: vGuide }[tab]();
+  paintSync();
+  if (playing) loadVideo(ps);
+  hydrateMedia();
+}
+
+const relTxt = d => d === TD ? 'Hari ini' : d > TD ? `${d - TD} hari lagi` : `${TD - d} hari lalu`;
+const mName = k => MUSCLES[k].n;
+
+/* ---------- Hari ini ---------- */
+function vToday() {
+  const p = PLANS[day - 1], ph = PHASES[p.ph];
+  let h = '';
+  if (TD < 1) h += `<div class="banner">Program dimulai ${longD(START)} — ${1 - TD} hari lagi.</div>`;
+  if (TD > DAYS) h += `<div class="banner">95 hari selesai 🎉 Lihat hasilmu di tab <button data-a="tab" data-v="prog">Progres</button>.</div>`;
+  h += `<section class="hero">
+    <div class="hero-top"><button class="ib" data-a="day" data-v="-1" aria-label="Hari sebelumnya">‹</button>
+      <div class="hero-d"><div class="kick">${longD(p.date)}</div><div class="big">Hari <b>${p.d}</b><span>/${DAYS}</span></div><div class="kick">${relTxt(p.d)}</div></div>
+      <button class="ib" data-a="day" data-v="1" aria-label="Hari berikutnya">›</button></div>
+    <div class="prog" role="progressbar" aria-valuenow="${p.d}" aria-valuemax="${DAYS}"><i style="width:${p.d / DAYS * 100}%"></i></div>
+    <div class="hero-meta"><span class="ph ph-${ph.c}">${ph.n}</span><span>Minggu ${p.w}/${WEEKS}</span></div>
+  </section>`;
+  if (p.d !== TDc) h += `<div style="text-align:center;margin-top:8px"><button class="btn alt" data-a="go" data-v="${TDc}">Kembali ke hari ini</button></div>`;
+  if (NOTES[p.d]) h += `<div class="banner">📌 ${esc(NOTES[p.d])}</div>`;
+
+  if (p.ty === 'R') return h + `<div class="card sess"><span class="lbl">Istirahat</span><h2>Hari pemulihan</h2><p class="hint">Otot tumbuh saat pulih, bukan saat latihan. Tidur 7–9 jam, protein tetap tercapai, dan jalan kaki santai 6–10 ribu langkah membantu membakar lemak tanpa mengganggu pemulihan.</p></div>` + finBox(p);
+  if (p.ty === 'E') return h + vEval(p);
+
+  const s = SESSIONS[p.ty], list = EX[p.d - 1], st = dayStats(p.d), wm = weekMuscle(p.w);
+  const ms = [...new Set(list.flatMap(x => Object.entries(x.m).filter(([, f]) => f >= 1).map(([k]) => k)))];
+  h += `<div class="card sess"><span class="lbl">${s.n}${s.opt ? ' · boleh dilewati' : ''} · ±${s.mins} mnt</span><h2>${s.t}</h2><p class="hint">${esc(ph.h)}</p>
+    ${ms.length ? `<div class="chips">${ms.map(k => `<span class="chip" title="Frekuensi minggu ini">${mName(k)} <i>${wm[k].fDone}/${wm[k].fPlan}×</i></span>`).join('')}</div>` : ''}
+    <p style="margin:14px 0 0;font-weight:700">${st.dn} dari ${st.tot} set selesai</p><div class="bar"><i style="width:${st.pct * 100}%"></i></div></div>`;
+  if (s.opt) h += `<p class="hint">Sesi kaki ini menjaga massa kaki dengan volume minimum. Lewati bila lelah—tidak dihitung di streak.</p>`;
+  list.forEach((x, i) => h += exCard(p, x, i));
+  return h + finBox(p);
+}
+
+function exCard(p, x, i) {
+  const a = setArr(p.d, x.id), n = doneN(p.d, x), ok = n >= x.sets, prev = prevFor(p.d, x.id);
+  const top = topRep(x.reps);
+  const tags = Object.entries(x.m).map(([k, f]) => `<span class="${f < 1 ? 'ind' : ''}">${mName(k)}${f < 1 ? ' ½' : ''}</span>`).join('');
+  let prevTxt = '';
+  if (prev) {
+    const reps = prev.reps.filter(Boolean), hitTop = reps.length >= x.sets && reps.every(r => +r >= top);
+    prevTxt = `<p class="prev">Sesi lalu (Hari ${prev.d}): <b>${reps.join(' · ')}</b>${prev.load ? ` @ ${esc(prev.load)}` : ''}${hitTop ? `<br><span class="up">▲ Semua set capai ${top} reps → naikkan beban (ransel/botol) atau perlambat tempo hari ini.</span>` : `<br>Target: kalahkan minimal 1 rep di salah satu set.`}</p>`;
+  }
+  const sets = Array.from({ length: x.sets }, (_, k) => {
+    const s = a[k] || {}, on = !!s.d;
+    return `<div class="set"><button data-a="set" data-x="${x.id}" data-i="${k}" data-r="${x.ist}" class="${on ? 'on' : ''}" aria-pressed="${on}" aria-label="Set ${k + 1}">${on ? '✓' : k + 1}</button><input type="text" inputmode="numeric" data-a="reps" data-x="${x.id}" data-i="${k}" value="${esc(s.r || '')}" placeholder="${esc(prev?.reps[k] || 'reps')}" aria-label="Repetisi set ${k + 1}"></div>`;
+  }).join('');
+  return `<article class="card ex ${ok ? 'ok' : ''}">
+    <header><span class="n">${ok ? '✓' : i + 1}</span><div><h3>${esc(x.g)}</h3><small>${esc(x.h)}</small></div></header>
+    ${tags ? `<div class="mtags">${tags}</div>` : ''}
+    <div class="rx"><div><b>${x.sets}</b><span>set</span></div><div><b>${esc(x.reps.replace(' per sisi', ''))}</b><span>reps${/sisi/.test(x.reps) ? '/sisi' : ''}</span></div><div><b>${x.rir}</b><span>RIR</span></div><div><b>${x.tempo}</b><span>tempo</span></div><div><b>${fmtRest(x.ist)}</b><span>rest</span></div></div>
+    ${x.ss ? `<p class="ssx">⇄ ${esc(x.ss)} — kerjakan bergantian, istirahat setelah keduanya.</p>` : ''}
+    ${x.intx ? `<p class="intx">⚡ ${esc(x.intx)}</p>` : ''}
+    <div class="sets">${sets}</div>
+    <p class="hint" style="margin:0;font-size:12px">Ketuk nomor set setelah selesai (timer istirahat jalan), tulis jumlah reps di bawahnya.</p>
+    ${prevTxt}
+    <label class="l">Beban / setup<input type="text" data-a="load" data-x="${x.id}" value="${esc(S.load[sk(p.d, x.id)] || '')}" placeholder="${esc(prev?.load || 'mis. 10 kg · ransel 20 kg · botol 2 L')}"></label>
+    <button class="more" data-a="open" data-v="${x.id}">${open[x.id] ? 'Tutup panduan ▲' : 'Cara melakukan & alasan ilmiah ▼'}</button>
+    ${open[x.id] ? `<div class="det"><p><b>Alat:</b> ${esc(x.alat)}</p><p><b>Teknik:</b> ${esc(x.tek)}</p><p class="hint">Tempo ${esc(x.tempo)} = detik turun – jeda – naik. RIR ${esc(x.rir)} = berhenti saat masih sanggup sekian reps lagi.</p><p class="why"><b>Kenapa gerakan ini?</b> ${esc(x.why)}</p>${vids(x)}</div>` : ''}
+  </article>`;
+}
+
+function finBox(p) {
+  const f = S.fin[p.d];
+  const lbl = f ? '✓ Selesai (ketuk untuk batalkan)' : p.ty === 'R' ? 'Tandai istirahat dijalani' : p.ty === 'E' ? 'Selesaikan program' : 'Selesai latihan';
+  return `<div class="card"><label class="l" style="margin-top:0">Catatan hari ini<textarea data-a="note" placeholder="Energi, tidur, nyeri sendi, pump…">${esc(S.note[p.d] || '')}</textarea></label><button class="fin ${f ? 'done' : ''}" data-a="fin">${lbl}</button></div>`;
+}
+
+function vEval(p) {
+  let h = `<div class="card sess"><span class="lbl">Hari 95 · Evaluasi</span><h2>Ukur hasil 95 hari</h2><p class="hint">Lakukan tes setelah pemanasan, dengan teknik yang sama persis seperti Hari 1. Bandingkan juga foto & lingkar lengan di tab Progres.</p></div><div class="card"><table class="mt"><tr><th>Tes</th><th>Hari 1</th><th>Hari 95</th></tr>`;
+  TESTS.forEach(t => h += `<tr><td style="white-space:normal">${esc(t.n)}</td><td><input type="number" inputmode="numeric" data-a="test" data-k="start|${t.id}" value="${esc(S.tests['start|' + t.id] || '')}"></td><td><input type="number" inputmode="numeric" data-a="test" data-k="end|${t.id}" value="${esc(S.tests['end|' + t.id] || '')}"></td></tr>`);
+  return h + `</table></div>` + finBox(p);
+}
+
+/* ---------- Habit ---------- */
+function vHabit() {
+  const past = PLANS.filter(p => isTrain(p.ty) && p.d < TD), doneAll = PLANS.filter(p => isTrain(p.ty) && sessDone(p.d)).length;
+  const totalTrain = PLANS.filter(p => isTrain(p.ty)).length;
+  const pastDone = past.filter(p => sessDone(p.d)).length;
+  const adh = past.length ? Math.round(pastDone / past.length * 100) : (doneAll ? 100 : 0);
+  const sr = streaks();
+  let h = `<div class="tiles">
+    <div class="tile hi"><b>${sr.cur}<small> sesi</small></b><span>Streak saat ini · terbaik ${sr.best}</span></div>
+    <div class="tile"><b>${adh}<small>%</small></b><span>Konsistensi sesi yang sudah lewat</span></div>
+    <div class="tile"><b>${doneAll}<small>/${totalTrain}</small></b><span>Sesi spesialisasi selesai</span></div>
+    <div class="tile"><b>${Math.max(0, Math.min(DAYS, TD))}<small>/${DAYS}</small></b><span>Hari berjalan</span></div></div>`;
+
+  // Frekuensi & volume per otot
+  const wm = weekMuscle(hw);
+  h += `<div class="sec"><span>Frekuensi per otot</span><span class="weeknav"><button data-a="hw" data-v="-1" aria-label="Minggu sebelumnya">‹</button><small>Minggu ${hw}</small><button data-a="hw" data-v="1" aria-label="Minggu berikutnya">›</button></span></div><div class="card">`;
+  Object.entries(MUSCLES).forEach(([k, m]) => {
+    const r = wm[k], max = Math.max(r.plan, m.t[1]) || 1, lh = lastHit(k);
+    h += `<div class="mrow"><div class="nm">${m.n}<small>${m.s}</small></div>
+      <div class="dots" aria-label="${r.fDone} dari ${r.fPlan} sesi">${r.days.map(x => `<i class="${x.done ? 'on' : ''}" title="Hari ${x.d}"></i>`).join('')}<span style="margin-left:4px">${r.fDone}/${r.fPlan}×</span></div>
+      <div class="bar" title="${fmtN(r.done)} dari ${fmtN(r.plan)} set efektif"><i style="width:${Math.min(100, r.done / max * 100)}%"></i><em style="left:${r.plan / max * 100}%"></em></div>
+      <div class="meta"><span>${fmtN(r.done)} / ${fmtN(r.plan)} set efektif</span><span>${lh ? 'terakhir ' + (lh === TD ? 'hari ini' : lh === TD - 1 ? 'kemarin' : (TD - lh) + ' hari lalu') : 'belum dilatih'}</span></div></div>`;
+  });
+  h += `<p class="hint" style="margin-top:12px">● = sesi yang melatih otot itu langsung minggu ini. Garis tegak = target set minggu ini. Set tidak langsung (mis. biceps saat pull-up) dihitung ½.</p></div>`;
+
+  // Heatmap 95 hari
+  h += `<div class="sec"><span>Kalender kebiasaan</span><small>ketuk kotak untuk membuka</small></div><div class="card"><div class="heat" role="grid"><span></span>${PLANS.slice(0, 7).map(p => `<span class="hd">${wd(p.date)}</span>`).join('')}`;
+  for (let w = 1; w <= WEEKS; w++) {
+    h += `<span class="wl">M${w}</span>`;
+    for (let i = 0; i < 7; i++) {
+      const d = (w - 1) * 7 + i + 1;
+      if (d > DAYS) { h += `<span class="hc blank"></span>`; continue; }
+      const p = PLANS[d - 1], st = dayStatus(d), s = dayStats(d);
+      const lvl = st === 'done' ? 'p3' : st === 'part' ? (s.pct >= 0.5 ? 'p2' : 'p1') : st;
+      const lab = p.ty === 'R' ? '' : p.ty === 'L' ? 'K' : p.ty === 'E' ? '★' : p.ty;
+      const tip = `Hari ${d} · ${shortD(p.date)} · ${p.ty === 'R' ? 'Istirahat' : SESSIONS[p.ty] ? SESSIONS[p.ty].n + ' ' + SESSIONS[p.ty].t : 'Evaluasi'}${s.tot ? ` · ${s.dn}/${s.tot} set` : ''}`;
+      h += `<button class="hc ${lvl} ${st === 'fut' ? 'fut' : ''} ${d === TD ? 'today' : ''}" data-a="go" data-v="${d}" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${st === 'miss' ? '!' : lab}</button>`;
+    }
+  }
+  h += `</div><div class="legend"><span><i style="background:var(--heat3)"></i>Selesai</span><span><i style="background:var(--heat2)"></i>≥50%</span><span><i style="background:var(--heat1)"></i>Sebagian</span><span><i style="border:2px solid var(--bad)"></i>Terlewat</span><span><i style="border:1px dashed var(--mut)"></i>Istirahat</span></div></div>`;
+
+  // Grafik volume per minggu untuk 1 otot
+  h += `<div class="sec"><span>Set efektif per minggu</span></div><div class="card chart"><div class="chips" style="margin:0 0 12px">${Object.entries(MUSCLES).map(([k, m]) => `<button class="chip ${hm === k ? 'on' : ''}" data-a="hm" data-v="${k}">${m.n}</button>`).join('')}</div>${volChart(hm)}
+    <div class="legend"><span><i style="background:var(--acc-tx)"></i>Selesai</span><span><i style="border:1.5px dashed var(--mut)"></i>Rencana</span><span><i style="background:var(--acc-soft)"></i>Rentang riset ${MUSCLES[hm].t.join('–')} set</span></div></div>`;
+  return h;
+}
+
+function volChart(k) {
+  const W = 340, H = 150, L = 24, B = 20, T = 8, data = [];
+  for (let w = 1; w <= WEEKS; w++) { const r = weekMuscle(w)[k]; data.push({ w, ...r }); }
+  const t = MUSCLES[k].t, max = Math.max(t[1] + 2, ...data.map(d => d.plan));
+  const bw = (W - L) / WEEKS, y = v => T + (H - T - B) * (1 - v / max);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Set efektif per minggu untuk ${MUSCLES[k].n}">`;
+  s += `<rect x="${L}" y="${y(t[1])}" width="${W - L}" height="${y(t[0]) - y(t[1])}" fill="var(--acc-soft)" rx="3"/>`;
+  [0, Math.round(max / 2), max].forEach(v => s += `<line class="gl" x1="${L}" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text x="0" y="${y(v) + 3}">${v}</text>`);
+  data.forEach((d, i) => {
+    const x = L + i * bw + bw * 0.18, wdt = bw * 0.64, tip = `Minggu ${d.w}: ${fmtN(d.done)} dari ${fmtN(d.plan)} set`;
+    s += `<g data-tip="${esc(tip)}"><rect class="pl" x="${x}" y="${y(d.plan)}" width="${wdt}" height="${Math.max(0, y(0) - y(d.plan))}" rx="4"/>`;
+    if (d.done > 0) s += `<rect class="dn" x="${x + 2}" y="${y(d.done)}" width="${wdt - 4}" height="${Math.max(1, y(0) - y(d.done))}" rx="3"/>`;
+    s += `<rect class="hit" x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}"/>`;
+    s += `<text x="${L + i * bw + bw / 2}" y="${H - 6}" text-anchor="middle" ${d.w === PLANS[TDc - 1].w ? 'style="fill:var(--ink);font-weight:700"' : ''}>${d.w}</text></g>`;
+  });
+  return s + `</svg>`;
+}
+
+/* ---------- Jadwal ---------- */
+function vPlan() {
+  let h = `<div class="sec"><span>Seluruh jadwal 95 hari</span></div><p class="hint">Pola tiap minggu: Kamis A · Jumat B · Sabtu C · Minggu libur total · Senin D · Selasa kaki (opsional) · Rabu istirahat.</p>`;
+  for (let w = 1; w <= WEEKS; w++) {
+    const days = PLANS.filter(p => p.w === w), tr = days.filter(p => isTrain(p.ty)), dn = tr.filter(p => sessDone(p.d)).length, ph = PHASES[days[0].ph];
+    h += `<div class="wk" id="w${w}"><span>Minggu ${w} <span class="ph ph-${ph.c}">${ph.short}</span></span><span class="hint">${dn}/${tr.length} sesi</span></div>`;
+    days.forEach(p => {
+      const st = dayStatus(p.d), s = SESSIONS[p.ty];
+      const cls = st === 'done' ? 'fin1' : st === 'part' ? 'part' : st === 'miss' ? 'miss' : st === 'rest' ? 'rest' : '';
+      const title = p.ty === 'R' ? 'Istirahat' : p.ty === 'E' ? 'Evaluasi akhir' : `${s.n} · ${s.t}`;
+      const sub = s ? s.ex.map(x => x.g).slice(0, 4).join(', ') + (s.ex.length > 4 ? '…' : '') : p.ty === 'E' ? 'Tes & ukur ulang' : '';
+      h += `<button class="row ${p.d === TD ? 'today' : ''} ${cls}" data-a="go" data-v="${p.d}"><span class="dt"><b>${wd(p.date)}</b>${shortD(p.date)}</span><span class="ss">${esc(title)}${sub ? `<small>${esc(sub)}</small>` : ''}</span><span class="st">${st === 'done' ? '✓' : st === 'miss' ? '!' : st === 'part' ? '½' : ''}</span></button>`;
+    });
+  }
+  return h;
+}
+
+/* ---------- Progres ---------- */
+const GOALS = {
+  bulk: { n: 'Lean bulk', s: 'perut sudah terlihat', lo: 0.25, hi: 0.5 },
+  recomp: { n: 'Rekomposisi', s: 'lemak sedang', lo: -0.25, hi: 0.15 },
+  cut: { n: 'Cutting', s: 'perut tertutup lemak', lo: -1, hi: -0.5 },
+};
+function vProg() {
+  const g = GOALS[S.goal] || GOALS.recomp;
+  const rows = Array.from({ length: WEEKS }, (_, i) => ({ w: i + 1, ...(S.meas[i + 1] || {}) }));
+  const bw = rows.filter(r => +r.bw > 0);
+  let h = `<div class="sec"><span>Tujuan nutrisi</span></div><div class="seg">${Object.entries(GOALS).map(([k, x]) => `<button data-a="goal" data-v="${k}" class="${S.goal === k ? 'on' : ''}">${x.n}<small>${x.s}</small></button>`).join('')}</div>
+  <p class="hint">Target perubahan berat: <b>${g.lo > 0 ? '+' : ''}${fmtN(g.lo)}% s/d ${g.hi > 0 ? '+' : ''}${fmtN(g.hi)}% berat badan per minggu</b>. ${S.goal === 'cut' ? 'Defisit moderat + protein tinggi + latihan berat mempertahankan otot saat lemak turun.' : S.goal === 'bulk' ? 'Surplus kecil (±200–300 kkal) memaksimalkan otot dengan sedikit lemak.' : 'Kalori ±pemeliharaan: lemak turun pelan, otot tetap naik—realistis untuk pemula–menengah.'}</p>`;
+  if (bw.length > 1) {
+    const a = bw[bw.length - 1], b = bw[bw.length - 2], rate = (a.bw - b.bw) / (a.w - b.w) / b.bw * 100;
+    const msg = rate < g.lo ? (S.goal === 'cut' ? 'Turun terlalu cepat → tambah ±150 kkal/hari agar otot aman.' : 'Di bawah target → tambah ±150 kkal/hari.') : rate > g.hi ? (S.goal === 'cut' ? 'Belum turun cukup → kurangi ±150–200 kkal/hari atau tambah langkah harian.' : 'Naik terlalu cepat → kurangi ±150 kkal/hari.') : 'Sesuai target. Pertahankan porsi.';
+    h += `<div class="banner">Perubahan terakhir: <b>${rate > 0 ? '+' : ''}${fmtN(rate)}%/minggu</b> (${fmtN(a.bw - b.bw)} kg). ${msg}</div>`;
+  }
+  const lastBw = bw.length ? +bw[bw.length - 1].bw : 0;
+  h += `<div class="card"><b>Protein harian</b><p class="hint" style="margin-top:2px">${lastBw ? `<b style="color:var(--ink);font-size:18px">${Math.round(lastBw * 1.6)}–${Math.round(lastBw * 2.2)} g/hari</b> (1,6–2,2 g/kg dari ${fmtN(lastBw)} kg), dibagi 3–5 kali makan.` : 'Isi berat badan di bawah untuk menghitung target protein (1,6–2,2 g/kg/hari).'}</p></div>`;
+
+  h += `<div class="sec"><span>Ukuran mingguan</span><small>pagi, setelah buang air, sebelum makan</small></div>`;
+  if (bw.length > 1) h += `<div class="card chart"><b style="font-size:14px">Berat badan (kg)</b>${lineChart(rows, 'bw')}</div>`;
+  const ws = rows.filter(r => +r.waist > 0), am = rows.filter(r => +r.arm > 0);
+  if (ws.length > 1) h += `<div class="card chart"><b style="font-size:14px">Lingkar pinggang di pusar (cm)</b>${lineChart(rows, 'waist')}<p class="hint">Pinggang turun + lengan naik = rekomposisi berhasil.</p></div>`;
+  if (am.length > 1) h += `<div class="card chart"><b style="font-size:14px">Lingkar lengan, tegang (cm)</b>${lineChart(rows, 'arm')}</div>`;
+  h += `<div class="card"><table class="mt"><tr><th>Minggu</th><th>Berat kg</th><th>Pinggang cm</th><th>Lengan cm</th></tr>` +
+    rows.map(r => `<tr><td>M${r.w}<br><small class="hint" style="font-weight:500">${shortD(dateOf((r.w - 1) * 7 + 1))}</small></td>${['bw', 'waist', 'arm'].map(f => `<td><input type="number" step="0.1" inputmode="decimal" data-a="meas" data-w="${r.w}" data-f="${f}" value="${esc(r[f] || '')}" aria-label="${f} minggu ${r.w}"></td>`).join('')}</tr>`).join('') + `</table></div>`;
+
+  h += vMedia();
+
+  // Rekor (dari log reps)
+  const key = ['pullup', 'chinup', 'oh-ext', 'cg-pushup', 'inc-curl', 'lat-raise'];
+  const all = Object.values(SESSIONS).flatMap(s => s.ex);
+  h += `<div class="sec"><span>Rekor repetisi</span><small>dari log set</small></div><div class="card">`;
+  key.forEach(id => {
+    const x = all.find(e => e.id === id); let first = null, best = null;
+    for (let d = 1; d <= DAYS; d++) {
+      const a = setArr(d, id).map(s => +(s && s.r) || 0), m = Math.max(0, ...a);
+      if (m) { if (!first) first = { d, m }; if (!best || m >= best.m) best = { d, m, l: S.load[sk(d, id)] || '' }; }
+    }
+    h += `<div class="pr"><span>${esc(x.g)}${best && best.l ? `<br><small class="hint">${esc(best.l)}</small>` : ''}</span><span>${best ? `<b>${best.m}</b> reps${first && best.m > first.m ? ` <span class="up">+${best.m - first.m}</span>` : ''}` : '<span class="hint">belum ada</span>'}</span></div>`;
+  });
+  h += `</div><div class="sec"><span>Tes Hari 1</span></div><div class="card"><p class="hint" style="margin-top:0">Isi sekali di awal—dibandingkan di Hari 95.</p><table class="mt">${TESTS.map(t => `<tr><td style="white-space:normal">${esc(t.n)}</td><td style="width:90px"><input type="number" inputmode="numeric" data-a="test" data-k="start|${t.id}" value="${esc(S.tests['start|' + t.id] || '')}"></td></tr>`).join('')}</table></div>`;
+  return h;
+}
+function lineChart(rows, f) {
+  const pts = rows.map((r, i) => ({ i, w: r.w, v: +r[f] })).filter(p => p.v > 0);
+  const W = 340, H = 120, L = 34, T = 10, B = 18;
+  const mn = Math.min(...pts.map(p => p.v)), mx = Math.max(...pts.map(p => p.v)), pad = Math.max(0.5, (mx - mn) * 0.15);
+  const lo = mn - pad, hi = mx + pad, X = i => L + i / (WEEKS - 1) * (W - L - 6), Y = v => T + (H - T - B) * (1 - (v - lo) / (hi - lo));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grafik ${f}">`;
+  [hi, (hi + lo) / 2, lo].forEach(v => s += `<line class="gl" x1="${L}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}"/><text x="0" y="${Y(v) + 3}">${fmtN(v)}</text>`);
+  s += `<polyline class="ln" points="${pts.map(p => X(p.i) + ',' + Y(p.v)).join(' ')}"/>`;
+  pts.forEach(p => s += `<g data-tip="Minggu ${p.w}: ${fmtN(p.v)}"><circle class="hit" cx="${X(p.i)}" cy="${Y(p.v)}" r="12"/><circle class="pt" cx="${X(p.i)}" cy="${Y(p.v)}" r="4.5"/></g>`);
+  [1, 7, WEEKS].forEach(w => s += `<text x="${X(w - 1)}" y="${H - 3}" text-anchor="middle">M${w}</text>`);
+  return s + `</svg>`;
+}
+
+/* ---------- Panduan ---------- */
+function vGuide() {
+  const th = document.documentElement.dataset.theme || 'auto';
+  return `<div class="sec"><span>Kenapa program ini disusun begini</span></div>
+  <details class="al" open><summary>1 · Volume: ±10–20 set efektif / otot / minggu</summary><p>Pertumbuhan otot naik seiring jumlah set berat per minggu, dengan hasil yang makin landai di atas ±20 set (Schoenfeld dkk. 2017; Pelland dkk. 2024). Program ini mulai ±14 set untuk triceps & lats lalu naik ke 18 di Fase 3. Set tidak langsung dihitung ½—cara hitung yang dipakai Pelland dkk. 2024.</p></details>
+  <details class="al"><summary>2 · Frekuensi: tiap otot 2–3× per minggu</summary><p>Bila volume sama, frekuensi hanya berpengaruh kecil (Schoenfeld dkk. 2019), tetapi membagi volume tinggi ke 2–3 sesi menjaga kualitas set—maksimal ±6–8 set berat per otot per sesi. Triceps, side delt & rear delt dilatih 3×/minggu, lats & biceps 2× langsung + 2× tidak langsung, perut 2×. Tab <b>Habit</b> menghitung frekuensi ini otomatis.</p></details>
+  <details class="al"><summary>3 · Kedekatan ke gagal (RIR 0–3)</summary><p>Hipertrofi meningkat saat set dibawa makin dekat gagal (Robinson dkk. 2024). Tapi gagal total di setiap set tidak memberi tambahan otot dan menambah kelelahan (Refalo dkk. 2023). Karena itu RIR diturunkan bertahap: 3 → 2 → 1 → 0 hanya di set terakhir isolasi.</p></details>
+  <details class="al"><summary>4 · Dumbbell 10 kg sudah cukup—asal benar</summary><p>Beban 30–80% 1RM membangun otot setara bila dekat gagal (Schoenfeld dkk. 2017; Lasevicius dkk. 2018). Saat 10 kg terasa ringan: (1) tambah reps sampai ±25–30, (2) perlambat eksentrik 3–4 detik, (3) satu tangan, (4) masukkan 2 dumbbell ke ransel (20 kg) untuk row, squat, pull-up & push-up berbeban, (5) lengthened partial / myo-reps di Fase 3.</p></details>
+  <details class="al"><summary>5 · Latih otot di posisi teregang</summary><p>Overhead triceps extension menumbuhkan triceps ±40% lebih besar dari pushdown (Maeo dkk. 2023). Preacher/incline curl di rentang teregang lebih unggul untuk biceps (Pedrosa dkk. 2023). Lengthened partial setara atau lebih baik dari ROM penuh (Wolf dkk. 2023; Kassiano dkk. 2023). Hampir semua gerakan di sini dipilih karena itu.</p></details>
+  <details class="al"><summary>6 · Prioritas triceps</summary><p>Triceps ±⅔ volume lengan atas, sehingga paling berpengaruh pada ukuran lengan. Ia mendapat volume tertinggi (14→18 set), 3 sudut berbeda (overhead, lying, compound), dan diletakkan di awal sesi A & C saat tenaga masih penuh.</p></details>
+  <details class="al"><summary>7 · Six pack: otot + lemak tubuh</summary><p>Latihan perut <b>tidak</b> membakar lemak perut secara lokal (Vispute dkk. 2011). Kotak six pack muncul bila lemak tubuh cukup rendah—umumnya ±10–14% pada pria. Program ini menebalkan otot perut (beban progresif, atas & bawah), sedangkan lemaknya diatur lewat tujuan nutrisi di tab <b>Progres</b>. “Abs bawah” adalah bagian bawah rectus abdominis yang sama; gerakan gulung panggul (reverse crunch, leg raise) memberi penekanan lebih di bawah.</p></details>
+  <details class="al"><summary>8 · Deload, tidur, protein</summary><p>Deload minggu 9 mengurangi kelelahan sendi sebelum fase terberat (konsensus Bell dkk. 2023). Protein 1,6–2,2 g/kg/hari memaksimalkan efek latihan (Morton dkk. 2018). Tidur &lt;6 jam menurunkan sintesis protein otot (Saner dkk. 2021).</p></details>
+  <details class="al"><summary>Cara progres (double progression)</summary><ol><li>Pakai beban yang membuatmu mencapai batas bawah rentang reps pada RIR target.</li><li>Tiap sesi, tambah 1 rep di salah satu set.</li><li>Semua set sampai batas atas → naikkan beban (ransel/botol lebih berat) atau tempo lebih lambat, kembali ke batas bawah.</li><li>App menandai ▲ saat waktunya naik.</li></ol></details>
+  <details class="al"><summary>Daftar pustaka</summary><ol class="ref">
+    <li>Schoenfeld BJ, Ogborn D, Krieger JW. Dose-response relationship between weekly resistance training volume and increases in muscle mass. J Sports Sci. 2017.</li>
+    <li>Pelland JC dkk. The resistance training dose-response: meta-regressions exploring the effects of weekly volume and frequency on muscle hypertrophy and strength gain. Sports Med. 2024 (preprint 2024, SportRxiv).</li>
+    <li>Schoenfeld BJ, Grgic J, Krieger J. How many times per week should a muscle be trained to maximize muscle hypertrophy? J Sports Sci. 2019.</li>
+    <li>Robinson ZP dkk. Exploring the dose–response relationship between estimated resistance training proximity to failure, strength gain, and muscle hypertrophy. Sports Med. 2024.</li>
+    <li>Refalo MC dkk. Influence of resistance training proximity-to-failure on skeletal muscle hypertrophy: a systematic review with meta-analysis. Sports Med. 2023.</li>
+    <li>Schoenfeld BJ dkk. Strength and hypertrophy adaptations between low- vs. high-load resistance training: a systematic review and meta-analysis. J Strength Cond Res. 2017.</li>
+    <li>Lasevicius T dkk. Effects of different intensities of resistance training with equated volume load on muscle strength and hypertrophy. Eur J Sport Sci. 2018.</li>
+    <li>Maeo S dkk. Triceps brachii hypertrophy is substantially greater after elbow extension training performed in the overhead versus neutral arm position. Eur J Sport Sci. 2023.</li>
+    <li>Pedrosa GF dkk. Training in the initial range of motion promotes greater muscle adaptations than at final in the arm flexors. Eur J Sport Sci. 2023.</li>
+    <li>Wolf M dkk. Partial vs full range of motion resistance training: a systematic review and meta-analysis. Int J Strength Cond. 2023.</li>
+    <li>Kassiano W dkk. Greater gastrocnemius muscle hypertrophy after partial range of motion training performed at long muscle lengths. J Strength Cond Res. 2023.</li>
+    <li>Bickel CS dkk. Exercise dosing to retain resistance training adaptations in young and older adults. Med Sci Sports Exerc. 2011.</li>
+    <li>Vispute SS dkk. The effect of abdominal exercise on abdominal fat. J Strength Cond Res. 2011.</li>
+    <li>Sarti MA dkk. Muscle activity in upper and lower rectus abdominus during abdominal exercises. Arch Phys Med Rehabil. 1996.</li>
+    <li>Escamilla RF dkk. Electromyographic analysis of traditional and nontraditional abdominal exercises. Phys Ther. 2006.</li>
+    <li>Morton RW dkk. A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains. Br J Sports Med. 2018.</li>
+    <li>Bell L dkk. Overview of deloading practices in strength and physique sports: a cross-sectional survey / Delphi consensus. Sports Med Open. 2023.</li>
+    <li>Saner NJ dkk. One night of partial sleep deprivation impairs myofibrillar protein synthesis. Physiol Rep. 2021.</li>
+  </ol></details>
+  <p class="hint">Program ini panduan latihan umum, bukan nasihat medis. Hentikan gerakan yang menimbulkan nyeri tajam pada sendi.</p>
+
+  <div class="sec"><span>Sinkron antar perangkat</span></div>
+  <div class="card"><p style="margin:0">Status: <b data-sync></b></p><p class="hint">Semua data tersimpan di HP ini (offline) dan otomatis dicadangkan ke cloud dengan kode pribadimu. Masukkan kode yang sama di perangkat lain untuk membuka data yang sama.</p>
+    <div class="code">${KEY}</div>
+    <div class="btns"><button class="btn alt" data-a="copy">Salin kode</button></div>
+    <label class="l">Pakai kode dari perangkat lain<input type="text" id="code" placeholder="32 karakter" autocomplete="off" spellcheck="false"></label>
+    <div class="btns"><button class="btn" data-a="connect">Sambungkan</button></div>
+    <p class="hint">Jaga kode ini seperti kata sandi—siapa pun yang memilikinya bisa melihat log latihanmu.</p></div>
+
+  <div class="sec"><span>Pasang aplikasi</span></div>
+  <div class="card">${installCard()}
+    <p class="hint" style="margin-top:14px">Perlu versi satu file? File HTML bisa dibuka tanpa internet; tempel kode sinkron di atas agar datanya sama.</p>
+    <div class="btns"><a class="btn alt" href="https://habit-tracker-workout.netlify.app/download" download="spesialisasi95.html">Unduh file HTML</a></div></div>
+
+  <div class="sec"><span>Pengaturan</span></div>
+  <div class="card"><b>Tema</b><div class="seg" style="margin-top:8px">${[['auto', 'Otomatis'], ['dark', 'Gelap'], ['light', 'Terang']].map(([k, l]) => `<button data-a="theme" data-v="${k}" class="${th === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <div class="btns" style="margin-top:16px"><button class="btn alt" data-a="export">Unduh cadangan (JSON)</button><label class="btn alt">Impor cadangan<input type="file" accept="application/json" data-a="import" hidden></label></div>
+    <div class="btns"><button class="btn alt" data-a="reset" style="color:var(--bad)">Hapus semua data</button></div></div>`;
+}
+
+/* =================== Video (link + file offline) =================== */
+const vmeta = {}; let idb = null, playing = '', curK = '', curURL = '';
+const openDB = () => new Promise((res, rej) => { const r = indexedDB.open('sp95-video', 1); r.onupgradeneeded = () => r.result.createObjectStore('v'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const tx = (m, f) => new Promise((res, rej) => { const t = idb.transaction('v', m), o = f(t.objectStore('v')); t.oncomplete = () => res(o && o.result); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
+async function vInit() {
+  try {
+    idb = await openDB();
+    await new Promise((res, rej) => { const r = idb.transaction('v', 'readonly').objectStore('v').openCursor(); r.onsuccess = () => { const c = r.result; if (c) { vmeta[c.key] = c.value.size; c.continue(); } else res(); }; r.onerror = () => rej(r.error); });
+  } catch (e) { idb = null; }
+}
+async function addVideo(k, f) { if (!f || !idb) return; try { await tx('readwrite', s => s.put(f, k)); vmeta[k] = f.size; playing = k; curK = ''; render(); } catch (e) { alert('Video gagal disimpan. Penyimpanan mungkin penuh.'); } }
+async function loadVideo(ps) {
+  const nv = curK !== playing;
+  if (nv) { if (curURL) URL.revokeObjectURL(curURL); const b = await tx('readonly', s => s.get(playing)); if (!b) return; curURL = URL.createObjectURL(b); curK = playing; }
+  const v = document.getElementById('vp'); if (!v) return; v.src = curURL;
+  if (ps && !nv) v.addEventListener('loadedmetadata', () => { v.currentTime = ps.t; if (!ps.p) v.play().catch(() => {}); }, { once: true });
+}
+function vids(x) {
+  const k = x.id, u = S.vid[k], has = vmeta[k] != null, L = 'target="_blank" rel="noopener noreferrer"';
+  const yt = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(x.g + ' form tutorial');
+  const inp = `<input type="file" accept="video/*" data-a="vfile" data-k="${k}" hidden>`;
+  let h = `<div class="vid"><a ${L} href="${yt}">▶ Cari contoh di YouTube</a>`;
+  h += u ? `<a ${L} href="${esc(u)}">🔗 Video saya</a><button data-a="ledit" data-k="${k}">✎ Ubah link</button>` : `<button data-a="ledit" data-k="${k}">＋ Simpan link video</button>`;
+  if (idb) h += has ? `<button data-a="vplay" data-k="${k}">${playing === k ? '■ Tutup' : '▶ Video offline'}</button><button data-a="vdel" data-k="${k}">Hapus video</button>` : `<label>＋ Video offline${inp}</label>`;
+  h += `</div>`;
+  if (editVid === k) h += `<input type="url" id="lin" inputmode="url" placeholder="Tempel link Google Drive / YouTube" value="${esc(u || '')}"><div class="vid"><button data-a="lsave" data-k="${k}">Simpan</button>${u ? `<button data-a="ldel" data-k="${k}">Hapus</button>` : ''}<button data-a="ledit" data-k="">Batal</button></div>`;
+  if (playing === k && has) h += `<video id="vp" class="player" controls playsinline preload="metadata"></video>`;
+  return h;
+}
+
+/* =================== Foto & video progres (opsional) =================== */
+// Foto dikecilkan ke JPEG lalu disimpan di HP + dicadangkan ke cloud. Video hanya di HP ini (terlalu besar untuk sinkron).
+const POSES = { f: 'Depan', s: 'Samping', b: 'Belakang', x: 'Lainnya' };
+const mLocal = new Set(), mURL = {}; let mdb = null;
+const openMDB = () => new Promise((res, rej) => { const r = indexedDB.open('sp95-media', 1); r.onupgradeneeded = () => r.result.createObjectStore('m'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const mtx = (m, f) => new Promise((res, rej) => { const t = mdb.transaction('m', m), o = f(t.objectStore('m')); t.oncomplete = () => res(o && o.result); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
+async function mInit() {
+  try {
+    mdb = await openMDB();
+    const ks = await mtx('readonly', s => s.getAllKeys());
+    (ks || []).forEach(k => mLocal.add(k));
+  } catch (e) { mdb = null; }
+}
+const mSrc = id => 'https://habit-tracker-workout.netlify.app/api/media?key=' + KEY + '&id=' + id;
+const mDay = t => { const d = diff(t, START) + 1; return d >= 1 && d <= DAYS ? 'Hari ' + d : shortD(t); };
+const mList = () => Object.entries(S.pm || {}).map(([id, m]) => ({ id, ...m })).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : a.at - b.at);
+
+async function shrink(file) {
+  let bmp;
+  try { bmp = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
+  catch (e) { bmp = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = URL.createObjectURL(file); }); }
+  const w0 = bmp.width, h0 = bmp.height, sc = Math.min(1, 1600 / Math.max(w0, h0));
+  const c = document.createElement('canvas'); c.width = Math.round(w0 * sc); c.height = Math.round(h0 * sc);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  return new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error('encode')), 'image/jpeg', 0.82));
+}
+async function addMedia(kind, file) {
+  if (!file) return;
+  if (!mdb) { alert('Penyimpanan media tidak tersedia di browser ini.'); return; }
+  pmBusy = kind; render();
+  try {
+    const blob = kind === 'f' ? await shrink(file) : file;
+    const id = rand32().slice(0, 16);
+    await mtx('readwrite', s => s.put(blob, id));
+    mLocal.add(id);
+    S.pm[id] = { t: kind, date: TODAY, pose: pmPose, at: Date.now(), note: '', c: 0 };
+    pmView = id; save(); flushMedia();
+  } catch (e) { alert(kind === 'f' ? 'Foto gagal diproses atau disimpan.' : 'Video gagal disimpan. Penyimpanan HP mungkin penuh.'); }
+  pmBusy = ''; render();
+}
+async function delMedia(id) {
+  const m = S.pm[id]; if (!m) return;
+  if (mdb && mLocal.has(id)) { try { await mtx('readwrite', s => s.delete(id)); } catch (e) {} mLocal.delete(id); }
+  if (mURL[id]) { URL.revokeObjectURL(mURL[id]); delete mURL[id]; }
+  if (m.c) S.pmGone = [...(S.pmGone || []), id];
+  delete S.pm[id]; if (pmView === id) pmView = '';
+  save(); flushMedia();
+}
+let flushing = false;
+async function flushMedia() {
+  if (flushing || !navigator.onLine || !pulled) return; flushing = true;
+  let changed = false;
+  try {
+    for (const id of [...(S.pmGone || [])]) {
+      const r = await fetch(mSrc(id), { method: 'DELETE' }).catch(() => null);
+      if (r && r.ok) { S.pmGone = S.pmGone.filter(x => x !== id); changed = true; }
+    }
+    for (const [id, m] of Object.entries(S.pm || {})) {
+      if (m.t !== 'f' || m.c || !mLocal.has(id) || !mdb) continue;
+      const b = await mtx('readonly', s => s.get(id)); if (!b) continue;
+      const r = await fetch(mSrc(id), { method: 'PUT', headers: { 'content-type': 'image/jpeg' }, body: b }).catch(() => null);
+      if (r && r.ok && S.pm[id]) { S.pm[id].c = 1; changed = true; }
+    }
+  } finally { flushing = false; }
+  if (changed) { save(); if (tab === 'prog') render(); }
+}
+async function hydrateMedia() {
+  for (const el of document.querySelectorAll('[data-mid]')) {
+    const id = el.dataset.mid;
+    if (!mURL[id] && mdb && mLocal.has(id)) { try { const b = await mtx('readonly', s => s.get(id)); if (b) mURL[id] = URL.createObjectURL(b); } catch (e) {} }
+    const u = mURL[id] || (S.pm[id] && S.pm[id].t === 'f' && S.pm[id].c ? mSrc(id) : '');
+    if (u && el.getAttribute('src') !== u) el.src = u;
+  }
+}
+const mTag = (m, cls) => m.t === 'v'
+  ? (mLocal.has(m.id) ? `<video class="${cls}" data-mid="${m.id}" ${cls === 'mfull' ? 'controls' : 'muted'} playsinline preload="metadata"></video>` : `<div class="${cls} mnone">🎬<small>Video ada di perangkat lain</small></div>`)
+  : (mLocal.has(m.id) || m.c ? `<img class="${cls}" data-mid="${m.id}" alt="Foto progres ${esc(POSES[m.pose] || '')} ${esc(mDay(m.date))}" loading="lazy">` : `<div class="${cls} mnone">📷<small>Belum terunggah dari perangkat lain</small></div>`);
+
+function vMedia() {
+  const all = mList();
+  let h = `<div class="sec"><span>Foto & video progres</span><small>opsional</small></div><div class="card">
+    <p class="hint" style="margin-top:0">Tidak wajib—tidak memengaruhi streak atau skor habit. Bila mau, ambil 1× per minggu dengan cahaya, jarak & waktu yang sama (mis. pagi sebelum makan). Foto otomatis dikecilkan dan ikut dicadangkan ke cloud; video hanya tersimpan di HP ini.</p>
+    <div class="seg mseg">${Object.entries(POSES).map(([k, l]) => `<button data-a="pose" data-v="${k}" class="${pmPose === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <div class="btns">${pmBusy ? `<span class="hint">${pmBusy === 'f' ? 'Memproses foto…' : 'Menyimpan video…'}</span>` : `<label class="btn">＋ Foto<input type="file" accept="image/*" data-a="mfile" data-v="f" hidden></label><label class="btn alt">＋ Video<input type="file" accept="video/*" data-a="mfile" data-v="v" hidden></label>`}</div>`;
+  const ph = all.filter(m => m.t === 'f' && m.pose === pmPose && (mLocal.has(m.id) || m.c));
+  if (ph.length > 1) {
+    const a = ph[0], b = ph[ph.length - 1];
+    h += `<div class="mcmp">${[a, b].map(m => `<figure>${mTag(m, 'mimg')}<figcaption>${esc(mDay(m.date))} · ${esc(shortD(m.date))}</figcaption></figure>`).join('')}</div>
+      <p class="hint" style="text-align:center;margin:4px 0 0">Perbandingan ${esc(POSES[pmPose].toLowerCase())}: pertama vs terbaru</p>`;
+  }
+  h += `</div>`;
+  if (all.length) {
+    const v = pmView && S.pm[pmView] ? { id: pmView, ...S.pm[pmView] } : null;
+    if (v) h += `<div class="card mview">${mTag(v, 'mfull')}
+      <p style="margin:8px 0 0"><b>${esc(mDay(v.date))}</b> · ${esc(longD(v.date))} · ${esc(POSES[v.pose] || '')}${v.t === 'f' ? ` <small class="hint">${v.c ? '☁ tercadang' : '⏳ menunggu unggah'}</small>` : ' <small class="hint">📱 hanya di perangkat ini</small>'}</p>
+      <input type="text" class="mnote" data-a="mnote" data-k="${v.id}" maxlength="200" placeholder="Catatan (opsional)" value="${esc(v.note || '')}">
+      <div class="btns"><button class="btn alt" data-a="mclose">Tutup</button><button class="btn alt" data-a="mdel" data-k="${v.id}" style="color:var(--bad)">Hapus</button></div></div>`;
+    h += `<div class="mgrid">${[...all].reverse().map(m => `<button data-a="mopen" data-k="${m.id}" class="${pmView === m.id ? 'on' : ''}" aria-label="Buka ${m.t === 'v' ? 'video' : 'foto'} ${esc(mDay(m.date))}">${mTag(m, 'mth')}<span>${m.t === 'v' ? '▶ ' : ''}${esc(mDay(m.date))}<small>${esc(POSES[m.pose] || '')}</small></span></button>`).join('')}</div>`;
+  }
+  return h;
+}
+
+/* =================== Timer istirahat =================== */
+let tEnd = 0, tIv = null;
+const tl = document.getElementById('timer');
+function timer(s) { tEnd = Date.now() + s * 1000; tl.classList.add('show'); tl.classList.remove('end'); document.getElementById('tl').textContent = 'Istirahat'; clearInterval(tIv); tIv = setInterval(tick, 250); tick(); }
+function tick() {
+  const r = Math.max(0, Math.ceil((tEnd - Date.now()) / 1000));
+  document.getElementById('tt').textContent = p2(Math.floor(r / 60)) + ':' + p2(r % 60);
+  if (!r) { clearInterval(tIv); tl.classList.add('end'); document.getElementById('tl').textContent = 'Waktunya set berikutnya!'; try { navigator.vibrate && navigator.vibrate([200, 100, 200]); } catch (e) {} setTimeout(() => { if (Date.now() >= tEnd) tl.classList.remove('show'); }, 6000); }
+}
+
+/* =================== Tooltip grafik =================== */
+const tip = document.createElement('div'); tip.className = 'tip'; document.body.appendChild(tip);
+document.addEventListener('pointermove', e => {
+  const g = e.target.closest && e.target.closest('[data-tip]');
+  if (!g || e.pointerType === 'touch') { tip.style.display = 'none'; return; }
+  tip.textContent = g.dataset.tip; tip.style.display = 'block'; tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px';
+});
+
+/* =================== Pasang aplikasi (PWA) =================== */
+let deferredInstall = null;
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+function installCard() {
+  if (isStandalone()) return '<p style="margin:0"><b>✓ Aplikasi sudah terpasang.</b></p><p class="hint">Kamu sedang membuka Spesialisasi 95 sebagai aplikasi. Data tetap tersimpan di HP ini dan bisa dipakai tanpa internet.</p>';
+  if (deferredInstall) return '<p style="margin:0">Pasang Spesialisasi 95 di layar utama HP—terbuka layar penuh seperti aplikasi biasa dan tetap jalan tanpa internet.</p><div class="btns"><button class="btn" data-a="install">📲 Pasang aplikasi</button></div>';
+  if (isIOS()) return '<p style="margin:0">Pasang di iPhone/iPad:</p><ol class="hint" style="padding-left:20px;margin:6px 0 0"><li>Buka halaman ini di <b>Safari</b>.</li><li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas).</li><li>Pilih <b>Tambahkan ke Layar Utama</b>, lalu <b>Tambah</b>.</li></ol>';
+  return '<p style="margin:0">Pasang di Android:</p><ol class="hint" style="padding-left:20px;margin:6px 0 0"><li>Buka halaman ini di <b>Chrome</b>.</li><li>Ketuk menu <b>⋮</b> di kanan atas.</li><li>Pilih <b>Instal aplikasi</b> / <b>Tambahkan ke layar utama</b>.</li></ol>';
+}
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstall = e; render(); });
+addEventListener('appinstalled', () => { deferredInstall = null; render(); });
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
+
+/* =================== Event =================== */
+function applyTheme(v) { if (v === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = v; }
+applyTheme(localStorage.getItem(LS + '-theme') || 'auto');
+
+document.addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-a]'); if (!b) return;
+  const a = b.dataset.a, v = b.dataset.v;
+  if (['reps', 'load', 'note', 'meas', 'test', 'vfile', 'import', 'mfile', 'mnote'].includes(a)) return;
+  if (a === 'tab') { tab = v; if (v === 'today') day = TDc; }
+  else if (a === 'day') day = Math.min(DAYS, Math.max(1, day + +v));
+  else if (a === 'go') { day = +v; tab = 'today'; }
+  else if (a === 'open') open[v] = !open[v];
+  else if (a === 'hw') hw = Math.min(WEEKS, Math.max(1, hw + +v));
+  else if (a === 'hm') hm = v;
+  else if (a === 'goal') { S.goal = v; save(); }
+  else if (a === 'set') {
+    const k = sk(day, b.dataset.x), i = +b.dataset.i, arr = S.sets[k] = S.sets[k] || [];
+    arr[i] = arr[i] || {};
+    arr[i].d = !arr[i].d;
+    if (arr[i].d && !arr[i].r) { const pv = prevFor(day, b.dataset.x); if (pv && pv.reps[i]) arr[i].r = pv.reps[i]; }
+    save(); if (arr[i].d) timer(+b.dataset.r);
+  }
+  else if (a === 'fin') { S.fin[day] = !S.fin[day]; save(); }
+  else if (a === 't+') { tEnd = Math.max(tEnd, Date.now()) + 15000; clearInterval(tIv); tIv = setInterval(tick, 250); tl.classList.add('show'); tl.classList.remove('end'); document.getElementById('tl').textContent = 'Istirahat'; tick(); return; }
+  else if (a === 'tx') { clearInterval(tIv); tl.classList.remove('show'); return; }
+  else if (a === 'ledit') editVid = b.dataset.k;
+  else if (a === 'lsave') { const u = (document.getElementById('lin') || {}).value || ''; if (u && !/^https?:\/\//i.test(u)) { alert('Link harus diawali http:// atau https://'); return; } if (u) S.vid[b.dataset.k] = u.trim(); else delete S.vid[b.dataset.k]; editVid = ''; save(); }
+  else if (a === 'ldel') { delete S.vid[b.dataset.k]; editVid = ''; save(); }
+  else if (a === 'vplay') playing = playing === b.dataset.k ? '' : b.dataset.k;
+  else if (a === 'vdel') { if (!confirm('Hapus video ini dari perangkat?')) return; await tx('readwrite', s => s.delete(b.dataset.k)); delete vmeta[b.dataset.k]; if (playing === b.dataset.k) playing = ''; }
+  else if (a === 'pose') pmPose = v;
+  else if (a === 'mopen') pmView = pmView === b.dataset.k ? '' : b.dataset.k;
+  else if (a === 'mclose') pmView = '';
+  else if (a === 'mdel') { const m = S.pm[b.dataset.k]; if (!m || !confirm(m.t === 'v' ? 'Hapus video ini?' : 'Hapus foto ini dari perangkat dan cloud?')) return; await delMedia(b.dataset.k); }
+  else if (a === 'copy') { try { await navigator.clipboard.writeText(KEY); b.textContent = 'Tersalin ✓'; } catch (e) { prompt('Salin kode ini:', KEY); } return; }
+  else if (a === 'connect') { await connect((document.getElementById('code') || {}).value || ''); }
+  else if (a === 'install') { if (!deferredInstall) return; deferredInstall.prompt(); try { await deferredInstall.userChoice; } catch (e) {} deferredInstall = null; }
+  else if (a === 'theme') { localStorage.setItem(LS + '-theme', v); applyTheme(v); }
+  else if (a === 'export') {
+    const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
+    const l = document.createElement('a'); l.href = URL.createObjectURL(blob); l.download = `spesialisasi95-${TODAY}.json`; l.click(); setTimeout(() => URL.revokeObjectURL(l.href), 2000); return;
+  }
+  else if (a === 'reset') {
+    if (!confirm('Hapus semua log latihan, foto & video progres di perangkat ini dan di cloud?')) return;
+    const gone = [...(S.pmGone || []), ...Object.entries(S.pm || {}).filter(([, m]) => m.c).map(([id]) => id)];
+    if (mdb) { try { await mtx('readwrite', s => s.clear()); } catch (e) {} } mLocal.clear();
+    S = blank(); S.pmGone = gone; pmView = ''; save(); flushMedia();
+  }
+  render();
+  if (a === 'ledit') { const i = document.getElementById('lin'); if (i) i.focus(); }
+  if (a === 'tab' || a === 'go') scrollTo(0, 0);
+  if (a === 'tab' && v === 'plan') { const el = document.getElementById('w' + PLANS[TDc - 1].w); if (el) el.scrollIntoView({ block: 'start' }); }
+});
+
+document.addEventListener('change', ev => {
+  const t = ev.target, a = t.dataset.a;
+  if (a === 'reps') { const k = sk(day, t.dataset.x), i = +t.dataset.i, arr = S.sets[k] = S.sets[k] || []; arr[i] = arr[i] || {}; arr[i].r = t.value.replace(/[^\d]/g, '').slice(0, 3); save(); return; }
+  if (a === 'load') { S.load[sk(day, t.dataset.x)] = t.value.slice(0, 60); save(); return; }
+  if (a === 'note') { S.note[day] = t.value.slice(0, 2000); save(); return; }
+  if (a === 'test') { S.tests[t.dataset.k] = t.value; save(); return; }
+  if (a === 'meas') { const w = t.dataset.w; S.meas[w] = S.meas[w] || {}; S.meas[w][t.dataset.f] = t.value; save(); render(); return; }
+  if (a === 'vfile') { addVideo(t.dataset.k, t.files[0]); return; }
+  if (a === 'mfile') { addMedia(t.dataset.v, t.files[0]); t.value = ''; return; }
+  if (a === 'mnote') { if (S.pm[t.dataset.k]) { S.pm[t.dataset.k].note = t.value.slice(0, 200); save(); } return; }
+  if (a === 'import') {
+    const f = t.files[0]; if (!f) return;
+    f.text().then(txt => { const o = JSON.parse(txt); if (!o || !o.v) throw 0; S = Object.assign(blank(), o); save(); render(); alert('Cadangan dipulihkan.'); }).catch(() => alert('File cadangan tidak valid.'));
+  }
+});
+
+render();
+Promise.all([vInit(), mInit()]).then(() => { render(); flushMedia(); });
+pull();
+
+
+</script>
+</body>
+</html>
